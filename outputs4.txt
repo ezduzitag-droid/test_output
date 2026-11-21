@@ -1,0 +1,320 @@
+Continuing the Q02 research and pasting results inline.
+
+Searching for Bayesian regime detection sources.
+
+IDEAS home Printed from https://ideas.repec.org/p/hal/wpaper/hal-04608937.html
+ideas.repec.org
+RePEc:hal:wpaper:hal 04608937
+econpapers.repec.org
+arxiv.org
+arxiv.org
+Is Regime Switching in Stock Returns Important in Asset Allocations?
+ink.library.smu.edu.sg
+Is Regime Switching in Stock Returns Important in Portfolio Decisions?
+pubsonline.informs.org
+Dynamic Investment Strategies Through Market Classification and Volatility: A Machine Learning Approach
+arxiv.org
+vu jmp
+oru.se
+MPRA paper 119515
+mpra.ub.uni-muenchen.de
+Regime-Based Portfolio Allocation Using Hidden Markov Models and Reinforcement Learning
+arxiv.org
+Tactical Asset Allocation with Macroeconomic Regime Detection
+arxiv.org
+Checking a cited paper's key claims.
+Failed to fetch: https://hal.science/hal-04608937v1/document
+Failed
+RePEc:hal:wpaper:hal 04608937
+econpapers.repec.org
+IDEAS home Printed from https://ideas.repec.org/p/hal/wpaper/hal-04608937.html
+ideas.repec.org
+www.arxiv.org
+www.arxiv.org
+Exact Bayesian inference for Markov switching diffusions
+arxiv.org
+Explainable Regime Aware Investing
+arxiv.org
+ar5iv.labs.arxiv.org
+ar5iv.labs.arxiv.org
+License: CC BY 4.0
+arxiv.org
+arxiv.org
+arxiv.org
+The Merton's Default Risk Model for Public Company
+arxiv.org
+Detecting regime switches in the dependence structure of high dimensional financial data
+arxiv.org
+
+Checking the paper's abstract for the modeling approach.
+
+Weighing whether the data smoothing leaks future information.
+
+arXiv is now an independent nonprofit! Learn more
+arxiv.org
+pdf.arxiv.org
+pdf.arxiv.org
+Bayesian Online Changepoint Detection
+ar5iv.arxiv.org
+Bayesian Online Changepoint Detection
+lips.cs.princeton.edu
+www.cs.princeton.edu
+www.cs.princeton.edu
+Bayesian Online Changepoint Detection
+arxiv.org
+arxiv.org
+arxiv.org
+Robust and Scalable Bayesian Online Changepoint Detection
+arxiv.org
+Active multi-fidelity Bayesian online changepoint detection
+arxiv.org
+Bayesian Changepoint Detection
+cran.r-project.org
+
+Checking the cited sources against the method.
+
+Reviewing a robustness caveat on changepoint detection.
+
+bash
+
+cd /home/claude && cat > q02_switching_test.py << 'EOF'
+"""Q02 prototype: switching control on filtered HMM probabilities (SYNTHETIC, overlapping regimes)."""
+import numpy as np
+from hmmlearn.hmm import GaussianHMM
+from scipy.stats import multivariate_normal
+
+def forward_filter(model, X):
+    K = model.n_components
+    B = np.column_stack([multivariate_normal(model.means_[k], model.covars_[k], allow_singular=True).pdf(X) for k in range(K)])
+    out = np.zeros((len(X), K)); a = model.startprob_ * B[0]; out[0] = a / a.sum()
+    for t in range(1, len(X)):
+        a = (out[t-1] @ model.transmat_) * B[t]; out[t] = a / a.sum()
+    return out
+
+def hysteresis(p1, hi, lo):            # 2-state Schmitt trigger on P(regime 1)
+    s = np.zeros(len(p1), int)
+    for t in range(1, len(p1)):
+        s[t] = s[t-1]
+        if s[t-1] == 0 and p1[t] > hi: s[t] = 1
+        elif s[t-1] == 1 and p1[t] < lo: s[t] = 0
+    return s
+
+def min_dwell(raw, n):                  # accept a switch only after n consecutive bars of the new label
+    s = raw.copy(); cur = raw[0]; cand = None; cnt = 0
+    for t in range(len(raw)):
+        if raw[t] == cur: cand, cnt = None, 0
+        else:
+            if raw[t] == cand: cnt += 1
+            else: cand, cnt = raw[t], 1
+            if cnt >= n: cur, cand, cnt = raw[t], None, 0
+        s[t] = cur
+    return s
+
+def lag(truth, est):                    # mean bars between a true switch and the next matching estimated switch
+    tl = np.where(np.diff(truth) != 0)[0] + 1; out = []
+    for t in tl:
+        m = np.where((est[t:] == truth[t]))[0]
+        if len(m): out.append(m[0])
+    return np.mean(out) if out else np.nan
+
+res = []
+for seed in range(20):
+    rng = np.random.default_rng(seed)
+    T, K = 6000, 2
+    A = np.array([[0.99, 0.01], [0.02, 0.98]])
+    mu = np.array([[0.0003, 0.0040], [-0.0003, 0.0060]]); sd = np.array([[0.0040, 0.0010], [0.0055, 0.0016]])  # heavily overlapping
+    s = np.zeros(T, int)
+    for t in range(1, T): s[t] = rng.choice(K, p=A[s[t-1]])
+    X = rng.normal(mu[s], sd[s]); TR = 3000
+    m = GaussianHMM(2, covariance_type="full", n_iter=100, random_state=0).fit(X[:TR])
+    vol_state = int(np.argmax(m.means_[:, 1]))             # align: higher vol-proxy mean = regime 1
+    P = forward_filter(m, X)[TR:]; p1 = P[:, vol_state]; truth = (s[TR:] == np.argmax(mu[:, 1])).astype(int)
+    raw = (p1 > 0.5).astype(int); hy = hysteresis(p1, 0.8, 0.2); md = min_dwell(raw, 12)
+    row = []
+    for e in (raw, hy, md):
+        row += [np.abs(np.diff(e)).sum(), (e == truth).mean(), lag(truth, e)]
+    res.append(row + [np.abs(np.diff(truth)).sum()])
+r = np.nanmean(np.array(res), 0)
+print(f"true switches/series: {r[9]:.1f}  (20 seeds, test T=3000)")
+for i, n in enumerate(["argmax(p>0.5)", "hysteresis(0.8/0.2)", "min-dwell(12 bars)"]):
+    print(f"{n:22s} switches={r[3*i]:6.1f}  accuracy={r[3*i+1]:.3f}  mean detection lag={r[3*i+2]:5.1f} bars")
+EOF
+python q02_switching_test.py 2>&1 | grep -v "not converging"
+
+Output
+
+true switches/series: 39.0  (20 seeds, test T=3000)
+argmax(p>0.5)          switches=   0.0  accuracy=0.677  mean detection lag=  0.0 bars
+hysteresis(0.8/0.2)    switches=   0.0  accuracy=0.677  mean detection lag=  0.0 bars
+min-dwell(12 bars)     switches=   0.0  accuracy=0.677  mean detection lag=  0.0 bars
+
+Loosening regime overlap and rerunning the switching test
+
+bash
+
+cd /home/claude && sed -i 's/mu = np.array(\[\[0.0003, 0.0040\], \[-0.0003, 0.0060\]\]); sd = np.array(\[\[0.0040, 0.0010\], \[0.0055, 0.0016\]\])  # heavily overlapping/mu = np.array([[0.0003, 0.0040], [-0.0003, 0.0075]]); sd = np.array([[0.0040, 0.0020], [0.0070, 0.0035]])  # moderately overlapping/' q02_switching_test.py && python q02_switching_test.py 2>&1 | grep -v "not converging"
+
+Output
+
+true switches/series: 39.0  (20 seeds, test T=3000)
+argmax(p>0.5)          switches=  65.0  accuracy=0.815  mean detection lag= 19.9 bars
+hysteresis(0.8/0.2)    switches=  32.1  accuracy=0.812  mean detection lag= 26.5 bars
+min-dwell(12 bars)     switches=  12.7  accuracy=0.762  mean detection lag= 20.7 bars
+
+44-question ML trading bot research plan (Master Execution Plan, Hermes agent + Obsidian vault); Q01 regime/HMM work in progress
+
+Q02 (raw questions 3 and 4) is researched. The results are pasted below as Obsidian-ready records. I still can't see your vault or code, so the "existing build" sections are marked not assessed.
+
+markdown
+---
+id: Q02-A
+raw_question: 3
+status: PARTIALLY COMPLETE (research + prototype done; repo comparison pending)
+decision: EXPERIMENT IN ISOLATION
+updated: 2026-11-20
+---
+# Q02-A: Genuine regime change vs temporary fluctuation; filtered probabilities and thresholds
+
+## Original research question
+How can our bot distinguish genuine market regime changes from temporary price fluctuations, and should it use filtered probabilities, confidence thresholds, or other techniques to avoid accidentally using future information?
+
+## Existing project context
+Vault and repo not accessible. Existing-build status: NOT ASSESSED. Builds on Q01-A (causal filtered HMM probabilities).
+
+## Technical concepts
+- **Filtered probability** P(s_t | x_1..x_t): causal, usable for decisions. **Smoothed** P(s_t | x_1..x_T): uses future bars, research-only.
+- **Changepoint / run length**: time since the last abrupt change in the data-generating parameters. Bayesian online changepoint detection (BOCD) maintains a posterior over the current run length using only data seen so far.
+- A "genuine change" is a persistent shift in generating parameters; a "fluctuation" is a transient excursion consistent with the current regime. Evidence accumulates over time, so confidence is a function of how long and how strongly new bars favor the new regime.
+
+## Research findings
+1. **Smoothing is non-causal by definition.** Corroborated by independent econometrics sources distinguishing inference given Y_t from smoothed inference given all of Y_T (Hashimzade et al., arXiv:2402.08051; Markov-switching likelihood notes in arXiv:2406.18121). Decision logic must consume filtered quantities only.
+2. **BOCD is online and causal by construction.** Adams & MacKay (2007, arXiv:0710.3742) estimate P(r_t | x_1..x_t) by recursive message passing; r_t either grows by one or drops to zero. It needs a predictive model per run (conjugate-exponential models make it cheap) and a hazard/prior on run length.
+3. **BOCD is not robust to model misfit.** Follow-up work (arXiv:2302.04759) states plainly that standard BOCD finds spurious changepoints when the model describes the data poorly. For fat-tailed 5-minute crypto returns this is a direct risk (hypothesis; test).
+4. **Bayesian regime-switching for trading (reference lead).** Blanchard & Goffard (2024, HAL hal-04608937) fit a Gaussian HMM with Bayesian algorithms to daily returns, report that false signals drive trade counts and transaction costs, and say a "simple smoothing technique" raises regime persistence; validated on synthetic data before real data. **Limitation: I could only read the abstract/metadata (full text fetch was blocked). I could not confirm whether their smoothing is causal. A centered or two-sided smoother on the data would itself leak the future. Do not adopt it until its definition is checked.**
+5. **Threshold choice is an empirical, not theoretical, quantity**: no source I verified gives universal confidence thresholds. Thresholds must come from a baseline experiment (plan Step 8 rule).
+
+## Verified sources
+| Source | URL | Establishes | Limits |
+|---|---|---|---|
+| Adams & MacKay, "Bayesian Online Changepoint Detection," 2007 | https://arxiv.org/abs/0710.3742 | Online causal run-length posterior | Equities not tested here; needs predictive model |
+| "Robust and Scalable Bayesian Online Changepoint Detection," arXiv:2302.04759 | https://arxiv.org/pdf/2302.04759 | Standard BOCD yields spurious changepoints under misfit | Method-focused, not trading |
+| Blanchard & Goffard, 2024, HAL hal-04608937 | https://ideas.repec.org/p/hal/wpaper/hal-04608937.html | Abstract-level: Bayesian Gaussian HMM, false signals raise costs, smoothing raises persistence | Full text not read |
+| Hashimzade, Kirsanov, Kirsanova, Maih, arXiv:2402.08051 | https://arxiv.org/abs/2402.08051 | Filtering vs smoothing in Markov switching models | Macro/linear-Gaussian focus |
+
+## How the technique works
+Per bar, from the Q01-A filter, compute p_t = P(s_t = k | x_1..x_t) for each regime. Candidate evidence signals (all causal): (a) max_k p_t and entropy H_t = -sum_k p_t(k) ln p_t(k); (b) BOCD run-length posterior mass at small run lengths as "probability a change just occurred"; (c) cumulative log-likelihood ratio of the new vs current regime since a candidate change point (CUSUM-style; design proposal). A regime change is declared only when evidence persists past a rule set from baseline statistics, not on a single bar.
+
+## Application to this project
+Gives block D (regime recognition) a "confirmed regime" output separate from the raw filtered vector; downstream consumers use confirmed regime plus confidence.
+
+## Existing implementation assessment
+NOT ASSESSED.
+
+## Recommended improvements (priority)
+1. Use filtered probabilities only, with a unit test that smoothing functions are not reachable from decision code.
+2. Add a confirmation layer (see Q02-B) between filtered probabilities and the "active regime".
+3. Evaluate BOCD as an independent cross-check on the HMM, with a robustness test on fat-tailed data.
+
+## Dependencies
+Q01-A causal filter; repo audit; cost model (Q18) for the cost side of thresholds.
+
+## Acceptance criteria
+- Future-perturbation test passes for every regime-related output (identical outputs for t when bars after t are altered).
+- Thresholds are derived from a baseline (e.g., false-switch rate of a no-regime-change surrogate) and recorded with their derivation.
+- BOCD false-changepoint rate measured on a surrogate with no true changes (e.g., stationary bootstrapped blocks) before any use.
+
+## Risk assessment
+Spurious changes under fat tails; threshold overfitting (each tuned parameter is a researcher degree of freedom, see Q05); detection delay trades off against false switching.
+
+## Implementation decision
+EXPERIMENT IN ISOLATION.
+
+## Outstanding questions
+Blanchard & Goffard smoothing definition; whether BOCD adds value over HMM filtering on real data.
+
+---
+id: Q02-B
+raw_question: 4
+status: PARTIALLY COMPLETE
+decision: EXPERIMENT IN ISOLATION
+updated: 2026-11-20
+---
+# Q02-B: Uncertain conditions and excessive strategy switching
+
+## Original research question
+How should the ML system handle uncertain market conditions and prevent excessive switching between strategies when market signals are inconsistent or rapidly changing?
+
+## Existing project context
+NOT ASSESSED (no repo access). Depends on Q02-A and cost model (Q18).
+
+## Technical concepts
+- **Hysteresis (Schmitt trigger)**: enter a new regime only above a high probability, leave only below a low one, so noise near 0.5 cannot toggle the state.
+- **Minimum dwell time**: a switch is accepted only after the new label persists for N consecutive bars.
+- **Switching cost**: fees plus slippage from changing exposure; a switch should happen only when expected benefit exceeds expected cost (design proposal, formula below).
+
+## Research findings
+1. Blanchard & Goffard (abstract level) identify the mechanism: false regime signals produce many trades and escalating transaction costs.
+2. Wang et al. (2020, JRFM 13(12):311) apply a confidence rule for switching (probability thresholds on regime likelihoods) but do not justify the numeric thresholds; the HMM they trained averaged ~12.5-day regimes under their settings.
+3. **Prototype result (synthetic, my test).** Two moderately overlapping regimes, 20 seeds, causal filtered probabilities from a Gaussian HMM fit on the first half, test on the second half (3,000 bars). True regime switches per series: 39.0.
+
+| Rule | Switches/series | Accuracy | Mean detection lag (bars) |
+|---|---|---|---|
+| argmax(p > 0.5) | 65.0 | 0.815 | 19.9 |
+| hysteresis (enter > 0.8, exit < 0.2) | 32.1 | 0.812 | 26.5 |
+| min-dwell, 12 bars | 12.7 | 0.762 | 20.7 |
+
+Reading: the plain argmax flaps (about 1.7x the true number of switches); hysteresis brought switching to roughly the true rate at almost no accuracy cost but ~6.6 bars more lag; the 12-bar dwell under-switched (12.7 vs 39 true) and lost 5 accuracy points, i.e., it suppressed real changes. Thresholds here were illustrative, not tuned. Lag is averaged only over detected switches, which flatters min-dwell. One generator, 20 seeds; real 5-minute crypto will differ.
+
+(An earlier version of this test had regimes so overlapped that the HMM collapsed to a single state and all rules showed 0 switches; I discarded it as uninformative.)
+
+## Verified sources
+Same as Q02-A, plus Wang et al. https://www.mdpi.com/1911-8074/13/12/311 (full text read).
+
+## How the technique works
+Pipeline: filtered p_t -> uncertainty gate -> persistence rule -> cost-aware switch decision.
+- Uncertainty gate: if max_k p_t < c (or entropy > h), hold the current regime and, downstream, scale risk down or select the fallback strategy. c and h come from baseline.
+- Persistence rule: hysteresis with thresholds (hi, lo) and optional minimum dwell N.
+- Cost-aware decision (design proposal, unverified): switch from strategy i to j only if
+      E[net_perf_j | regime evidence] - E[net_perf_i | regime evidence] > expected_switch_cost + safety_margin
+  with the expected performance difference computed from the Q01-B map, shrunk when uncertainty is high.
+- Under uncertainty the default is not "pick the likely winner"; it is "keep the current position or the lowest-risk fallback".
+
+## Application to this project
+Block G (strategy selection) consumes confirmed regime + confidence; uncertainty reduces exposure rather than triggering a strategy swap.
+
+## Existing implementation assessment
+NOT ASSESSED.
+
+## Recommended improvements (priority)
+1. Add hysteresis (cheapest, best prototype result).
+2. Add the uncertainty gate and fallback strategy.
+3. Add cost-aware switch decision after Q18 gives a cost model.
+4. Treat min-dwell cautiously; test whether it hides real changes.
+
+## Dependencies
+Q02-A; Q01-B map; Q18 costs; fold design (raw 11-12) for threshold calibration.
+
+## Acceptance criteria
+- On a no-regime-change surrogate series, switch rate is below a baseline set from the project's own data and costs.
+- On data with known injected regime changes, detection lag and missed-change rate are recorded; thresholds chosen on training folds only and evaluated on later folds.
+- Net-of-cost performance with the switching rule is no worse than the no-regime baseline (Q01-B baselines), otherwise the rule is not adopted.
+
+## Risk assessment
+Thresholds are tunable parameters and therefore overfit risks; hysteresis lag can miss fast crashes (needs independent risk controls, Q19, which must not depend on the regime classifier); min-dwell can mask genuine changes.
+
+## Implementation decision
+EXPERIMENT IN ISOLATION.
+
+## Outstanding questions
+Threshold values (baseline needed); cost model; crypto fat-tail behavior of the gate.
+
+---
+Tracker update: Q01 PARTIALLY COMPLETE; Q02-A PARTIALLY COMPLETE; Q02-B PARTIALLY COMPLETE; Q03-A..Q22-B NOT STARTED.
+
+Limits you should know about
+
+Blanchard & Goffard (2024): I only verified its abstract and metadata. The full text wouldn't fetch, so I couldn't confirm whether its "smoothing" is causal. I flagged it as unusable until checked.
+Switching test: it uses synthetic data, one data generator, and untuned thresholds. Treat the numbers as a demonstration that flapping is a real effect and hysteresis helps, not as thresholds to adopt.
+Fat tails: the risk that standard changepoint detection over-triggers on fat-tailed crypto returns is sourced (the follow-up paper), but its size on your data is unknown.
+Thresholds: I didn't invent any, per your plan's Step 8 rule. They have to come from a baseline run on your own data.
+Vault conventions: the record layout is mine, so adjust it to match your vault's conventions.

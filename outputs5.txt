@@ -1,0 +1,172 @@
+Eight more searches. They verified the tooling and resilience items and corrected one threshold from my earlier answer (Q25). Paste this under the first block.
+
+=====================================================================
+ADDENDUM A: VERIFICATION PASS 2 (2026-11-20)
+Verified at abstract/docs-snippet level, same standard as before.
+=====================================================================
+
+NEW VERIFIED SOURCES
+S13 SEC Rule 15c3-5 (Market Access Rule), adopting release 34-63241
+    https://www.sec.gov/rules/final/2010/34-63241.pdf
+    FAQ: https://www.sec.gov/files/faq-15c-5-risk-management-controls-bd.htm
+    FINRA overview: https://finra.org/industry/market-access
+S14 Evidently AI docs, data drift methods and default thresholds
+    https://docs.evidentlyai.com/metrics/customize_data_drift.md
+S15 Domino Data Lab, PSI thresholds
+    https://docs.dominodatalab.com/en/5.7/user_guide/f33b63/analyze-data-drift
+S16 Tóth et al., Anomalous price impact (square-root law), Phys Rev X 2011
+    https://www.arxiv.org/pdf/1105.1694
+S17 Almgren, Thum, Hauptmann, Li (2005), Direct Estimation of Equity
+    Market Impact, Risk 18
+    https://www.cis.upenn.edu/~mkearns/finread/costestim.pdf
+S18 Microsoft Azure Architecture Center, Circuit Breaker pattern
+    https://learn.microsoft.com/azure/architecture/patterns/circuit-breaker
+S19 MLflow Dataset Tracking (mlflow.log_input, dataset digest/lineage)
+    https://mlflow.org/docs/latest/ml/dataset/
+S20 DVC docs overview (Git-based data/experiment versioning, dvc exp run,
+    params dependencies); secondary: Wikipedia notes lakeFS announced
+    acquiring DVC in Nov 2025 (check current project status before
+    adopting). https://en.wikipedia.org/wiki/Data_Version_Control_(software)
+S21 pandera (DataFrame schema validation, column checks, hypothesis tests,
+    lazy validation) https://github.com/unionai-oss/pandera
+S22 Li, Jamieson et al., Hyperband, JMLR 18(185) 2018
+    https://jmlr.csail.mit.edu/papers/v18/16-558.html
+    Successive Halving: Jamieson & Talwalkar (2016), described in
+    https://arxiv.org/pdf/2105.09821
+
+---------------------------------------------------------------------
+CORRECTIONS TO FIRST BLOCK
+---------------------------------------------------------------------
+Q25 CORRECTED. I earlier gave PSI rule of thumb "<0.1 stable, 0.1-0.25
+moderate, >0.25 large". What the sources actually show:
+ - Evidently defaults: KS test for numeric data when <=1000 objects,
+   drift flagged when p-value < 0.05; PSI default threshold 0.1
+   [S14].
+ - Domino describes a generally accepted PSI threshold of 0.2-0.25
+   [S15].
+ Conclusion: thresholds are tool- and convention-dependent. Pick one,
+ write it down, and calibrate on your own stable periods (measure the
+ false-alarm rate on data known to be stationary). Treat 0.1 as
+ sensitive and 0.2-0.25 as conservative. Also KS p-values become
+ over-sensitive on large samples, so combine with an effect-size
+ measure (PSI, Wasserstein, Jensen-Shannon, all available in S14).
+
+Q37 REFINED. SEC Rule 15c3-5 applies to broker-dealers that have or
+ provide market access; the FAQ states that if a firm does not have or
+ provide market access, the rule does not apply [S13]. So it is not a
+ binding requirement on an individual trading through a broker, but it
+ is a useful reference design: the rule requires controls to be
+ pre-trade, under the broker's direct and exclusive control, with
+ financial controls limiting exposure and regulatory controls ensuring
+ compliance [S13]. Lesson for your bot: keep risk limits outside the
+ strategy's control, and enforce them before orders reach the venue.
+ Low-authority glossary (questdb.com) lists typical checks: max order
+ quantity, price checks, duplicate-order protection, aggregate position
+ monitoring; verify against the rule text before citing.
+ Exchange kill switches exist as a venue feature; one SEC filing
+ (PHLX) describes that after a kill switch triggers, the member must
+ contact exchange operations to re-authorize trading
+ https://www.sec.gov/file/34-71559. This supports the one-way latch
+ design in Q38 (re-enable requires an explicit, authenticated human
+ step).
+
+---------------------------------------------------------------------
+UPGRADES: [B] -> [V]
+---------------------------------------------------------------------
+Q35 (execution realism) now partly verified:
+ - Empirical square-root impact law: average price impact of a large
+   order scales as sigma * sqrt(Q/V) (volatility times the square root
+   of order size over volume) [S16]. Reported across stocks, futures,
+   options, and (per a secondary review) crypto.
+ - But the exponent is not settled: Almgren et al. found a 3/5 power
+   law for temporary impact in their equity data [S17]; other work
+   proposes logarithmic dependence (cited in the Cambridge chapter
+   https://cambridge.org/core/books/trades-quotes-and-prices/impact-of-metaorders/7320C5E965EE6CE7B755E36FAA542899).
+ - IMPLEMENT: slippage = a + b * sigma * (Q/ADV)^delta with delta
+   calibrated from YOUR fills (start 0.5, test 0.6), never assumed.
+   Small retail-size orders may sit in a regime where spread and fees
+   dominate and impact is negligible; check with your own size/ADV.
+ - VALIDATE: fit delta on paper-trade fills (Q36); compare residuals.
+
+Q43 / Q44 (circuit breakers) now verified:
+ - Closed -> Open when failures in a time window exceed a threshold;
+   Open -> Half-Open after a timeout; Half-Open lets limited requests
+   through and closes on success, reopens on failure [S18].
+ - Microsoft states the breaker serves a different purpose than retry;
+   you can combine them by retrying through a breaker [S18].
+ - Documented risks: breaker stuck open too long keeps rejecting after
+   the fault is fixed; switching to half-open too fast causes
+   oscillation [S18]. Plus the AWS caution (first block, S11) that
+   breakers add modal behavior that is hard to test.
+ - IMPLEMENT: per-dependency breaker, increasing open timeout, small
+   half-open probe count, state-change events logged to audit (Q40) and
+   health (Q41). Count timeouts, connection errors, 429/5xx as
+   failures; do not count your own 4xx bugs.
+
+Q33 (reproducibility) now verified:
+ - MLflow can log datasets as run inputs with name, digest, schema, and
+   source, giving lineage from data to model [S19].
+ - DVC works on top of Git, tracks data/models/pipelines, supports
+   parameter-level dependencies in dvc.yaml and experiment runs [S20].
+ - Caveat: a research review notes AutoML platforms don't give
+   reproducibility out of the box (https://arxiv.org/pdf/2406.14325);
+   test it (replay job), don't assume it.
+ - Check project status of DVC after the reported lakeFS acquisition
+   before committing; alternatives: lakeFS, content-hashed parquet
+   snapshots.
+
+Q19 (validation tooling) now verified:
+ - pandera: schema defined once, checks on column types/properties,
+   statistical hypothesis tests, lazy validation (collect all failures
+   before raising), data synthesis for property-based tests [S21].
+ - Great Expectations is an alternative (confirmed to exist and be
+   used alongside pandera in a third-party toolkit,
+   https://pypi.org/project/adc-toolkit/); I did not open its own docs.
+ - IMPLEMENT: pandera DataFrameModel for candle schema with checks for
+   OHLC invariants, non-negative volume, unique key; lazy=True so one
+   run reports every violation.
+
+Q06 (exploration control) refined by verified source:
+ - Successive Halving allocates budget to many configurations, drops
+   the worst fraction each round, repeats; Hyperband hedges across
+   several halving brackets [S22].
+ - CAUTION [from the DEHB paper snippet]: SH can discard configurations
+   at low budgets that would have been best at the highest budget.
+   For trading, this means strategies whose edge needs a long sample
+   (rare events, slow regimes) can be culled wrongly. Mitigate: set the
+   minimum evaluation budget by the strategy's trade frequency, and
+   keep a small protected slot for slow-edge candidates.
+ - SH/Hyperband are for hyperparameter/configuration search under a
+   fixed budget; applying them to live strategy culling is my
+   adaptation [A].
+
+---------------------------------------------------------------------
+STILL UNVERIFIED (flag in the vault as [B]/[A])
+---------------------------------------------------------------------
+ - Hysteresis thresholds (0.7/0.4) and dwell-time defaults (Q3): my
+   defaults, tune on data.
+ - Thompson sampling variants for non-stationary rewards (Q5): not
+   searched beyond LinUCB and non-stationary contextual bandit papers.
+ - CUSUM event filter details (Q13): AFML TOC lists "Event-Based
+   Sampling" (verified); a thesis snippet names CUSUM filter with
+   triple-barrier. Original CUSUM filter definition not opened.
+ - Benjamini-Hochberg FDR for many-feature drift tests (Q25): standard
+   statistics, not searched.
+ - SPRT/CUSUM on PnL residuals for rollback (Q32): not searched.
+ - Bitemporal / as-of join practice (Q17, Q18): not searched; the
+   real-time vintage point is verified via S6.
+ - Block bootstrap for paired strategy comparison (Q30): not searched.
+ - Watchdog progress-counter design (Q41): my design.
+ - Workflow engines (Prefect/Dagster/Airflow): existence known, not
+   compared. One Prefect+MLflow champion/challenger example exists at
+   https://docs.rapids.ai/deployment/stable/examples/fraud-detection-mlops-pipeline/pipeline/flows/deploy.py
+   (illustrative only, not authoritative).
+
+SEARCH-RESULT QUALITY NOTES
+ - Several hits were low-authority (blogs, glossaries, community
+   forks). I used them only where they quote primary docs, and marked
+   them as secondary or illustrative.
+ - Wikipedia was used only as a secondary pointer.
+=====================================================================
+
+If you want, I can keep going on the remaining unverified items (CUSUM, Thompson sampling, SPRT, bitemporal joins) in the same format.

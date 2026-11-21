@@ -1,0 +1,977 @@
+Fetching the gist from the link.
+Fetched: gist.github.com/…/00be39de1ea94421a016968dcdbf9a18.js
+https://gist.github.com/ezduzitag-droid/00be39de1ea94421a016968dcdbf9a18.js
+
+Reviewing a fetched gist's execution plan.
+
+Checking whether the gist's instructions are the user's request.
+
+Fetched: gist.github.com/…/00be39de1ea94421a016968dcdbf9a18.js
+https://gist.github.com/ezduzitag-droid/00be39de1ea94421a016968dcdbf9a18.js
+
+Checking where the gist embed output ends.
+
+Deciding how to continue the research work.
+
+The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting and Non-Normality
+papers.ssrn.com
+01 multiple testing
+www.github.com
+Deflated Sharpe ratio
+en.wikipedia.org
+mpra.ub.uni-muenchen.de
+mpra.ub.uni-muenchen.de
+Machine Learning Enhanced Multi-Factor Quantitative Trading: A Cross-Sectional Portfolio Optimization Approach with Bias Correction
+arxiv.org
+RT Journal Article
+jpm.iijournals.com
+Deflating the Sharpe Ratio
+dx.doi.org
+arxiv.org
+arxiv.org
+Post-Rejection Follow-up Sampling: Measuring Outcomes of Rejected Decisions in Algorithmic DEX Trading
+arxiv.org
+escholarship.org
+escholarship.org
+toc.uni.li
+toc.uni.li
+Source code for fynance.features.labels
+fynance.readthedocs.io
+exlibris.ch
+exlibris.ch
+Purged cross-validation
+en.wikipedia.org
+catalogimages.wiley.com
+catalogimages.wiley.com
+Advances in financial machine learning /
+libcat.scu.edu
+purging embargo
+5x5x5x5.github.io
+Beyond the Clock (Part 4): Efficacy of Bars on Trending and Mean-Reversion Strategies
+www.mql5.com
+fynance.readthedocs.io
+fynance.readthedocs.io
+MA BergerThomas
+epub.ub.uni-muenchen.de
+Regime Switching Models
+www.academia.edu
+PROTECTED SOURCE SCRIPT
+kr.tradingview.com
+PROTECTED SOURCE SCRIPT
+ar.tradingview.com
+regime switching model hamilton
+www.quantt.co.uk
+ASRI: An Aggregated Systemic Risk Index for Cryptocurrency Markets
+arxiv.org
+The Federal Reserve Board eagle logo links to home page
+www.federalreserve.gov
+Regime-Switching Models
+econweb.ucsd.edu
+Markov switching autoregression models
+www.statsmodels.org
+Estimation of Markovian-regime-switching models with independent regimes
+arxiv.org
+minerva-access.unimelb.edu.au
+minerva-access.unimelb.edu.au
+docs.rs
+docs.rs
+docs.rs
+docs.rs
+Adaptive window implementation (ADWIN2: Bifet & Gavalda)
+github.com
+On the Reliable Detection of Concept Drift from Streaming Unlabeled Data
+arxiv.org
+docs.rs
+docs.rs
+irithyll-core 1.0.0
+docs.rs
+frouros.detectors.concept drift.streaming.window based.ADWIN
+frouros.readthedocs.io
+Advances on Concept Drift Detection in Regression Tasks using Social Networks Theory
+arxiv.org
+Cluster-Specific Localized Drift Detection for Efficient Batch Model Adaptation under Controlled Distribution Shift
+arxiv.org
+Data stream mining for predicting software build outcomes using source code metrics
+arxiv.org
+Choosing bandit and backoff strategies.
+timeouts retries and backoff with jitter
+aws.amazon.com
+AWS Builder Center
+builder.aws.com
+AWS Builder Center
+builder.aws.com
+AWS Builder Center
+builder.aws.com
+Überspringen zum Hauptinhalt
+aws.amazon.com
+timeouts retries and backoff with jitter
+aws.amazon.com
+AWS Builder Center
+builder.aws.com
+Planning bandit and drift-monitoring experiments next.
+microsoft.com
+microsoft.com
+arxiv.org
+arxiv.org
+arXiv is now an independent nonprofit! Learn more
+arxiv.org
+arxiv.org
+arxiv.org
+A Survey on Contextual Multi-armed Bandits
+arxiv.org
+Computer Science > Machine Learning
+web3.arxiv.org
+A Contextual-Bandit Approach to Personalized News Article Recommendation
+arxiv.org
+Contextual Multi-armed Bandit Algorithm for Semiparametric Reward Model
+arxiv.org
+par.nsf.gov
+par.nsf.gov
+Multiscale Non-stationary Stochastic Bandits
+arxiv.org
+escholarship.org
+escholarship.org
+Journal of Computational Finance
+www.risk.net
+Journal of Computational Finance
+www.risk.net
+econpapers.repec.org
+econpapers.repec.org
+IDEAS home Printed from https://ideas.repec.org/a/rsk/journ0/2471206.html
+ideas.repec.org
+THE PROBABILITY OF BACKTEST OVERFITTING
+files.cnblogs.com
+escholarship.org
+escholarship.org
+Professional Documents
+www.scribd.com
+The Probability of Backtest Overfitting
+scholarworks.wmich.edu
+The Probability of Backtest Overfitting
+papers.ssrn.com
+docs.nvidia.com
+docs.nvidia.com
+Model Registry: How ML Teams Track, Promote and Govern Model Versions
+www.snowflake.com
+"""Deploy flow with Triton model version promotion or rollback."""
+docs.rapids.ai
+# Model Registry Guide
+cdn.jsdelivr.net
+pkg.go.dev
+pkg.go.dev
+model registry
+mlflow.org
+mlflow mcp
+pypi.org
+
+Resolving a formatting conflict in the output.
+
+Deciding how to cite sources in the output.
+
+Checking the sources behind each claim.
+
+Compiling the research index and per-question records.
+
+Weighing hysteresis thresholds and change-point confirmation.
+
+Setting up the labeling and sample weighting.
+
+Reviewing the meta-labeling and evaluation criteria.
+
+Reviewing data-quality checks and drift monitoring.
+
+Mapping drift responses and health states for each component.
+
+Planning the continuous retraining pipeline and acceptance gates.
+
+Planning execution simulation and risk controls.
+
+Designing restart and recovery without re-enabling trading.
+
+Cataloguing failure classes and retry strategies.
+
+I fetched the gist and answered all 44 questions in the block below. I can't see your Obsidian vault or your codebase, so each "Existing project" line is a checklist for you to fill in, not a finding.
+
+The gist also appeared to cut off at Section 4.3. If there were later sections (an output format, for example), I haven't seen them.
+
+I checked the core papers and docs by search, mostly at abstract, table-of-contents or documentation-snippet level, not full text. Those are tagged [V]. Everything else is tagged [B] (background knowledge, verify before relying) or [A] (my own design reasoning). Thresholds in the block are tunable design choices, not literature values.
+
+=====================================================================
+ML TRADING PROJECT: RESEARCH RECORD, Q1-Q44
+Date: 2026-11-20
+=====================================================================
+
+TAGS
+[V] = source found and checked this session (abstract/TOC/docs level)
+[B] = background knowledge, verify before relying
+[A] = my design reasoning, not from a source
+Each answer: ANSWER / SOURCES / EXISTING PROJECT (checks) / IMPLEMENT / VALIDATE
+
+VERIFIED SOURCE LIST
+S1  López de Prado, Advances in Financial ML (Wiley 2018). Ch3 labeling
+    (3.4 triple-barrier, 3.6 meta-labeling), Ch7 purged k-fold + embargo,
+    Ch8 feature importance, Ch12 walk-forward pitfalls + CPCV.
+    https://catalogimages.wiley.com/images/db/pdf/9781119482086.toc.pdf
+S2  Bailey & López de Prado (2014), Deflated Sharpe Ratio, J. Portfolio
+    Mgmt 40(5):94-107. Corrects for selection bias under multiple testing
+    and non-normal returns. https://papers.ssrn.com/abstract=2460551
+S3  Bailey, Borwein, López de Prado, Zhu, Probability of Backtest
+    Overfitting (CSCV), J. Computational Finance 2015/2017.
+    https://papers.ssrn.com/abstract=2326253
+S4  Hamilton (1989) Econometrica 57(2):357-384; Hamilton (2005) overview.
+    https://econweb.ucsd.edu/~jhamilton/palgrav1.pdf
+S5  statsmodels Markov switching docs: filtered = data up to t; smoothed =
+    full sample. https://www.statsmodels.org/v0.14.4/examples/notebooks/generated/markov_autoregression.html
+S6  Nalewaik (2007), Fed FEDS 2007-23, real-time vintage data in Markov
+    switching. https://www.federalreserve.gov/pubs/feds/2007/200723/index.html
+S7  Bifet & Gavaldà (2007), ADWIN, SIAM SDM, doi 10.1137/1.9781611972771.42
+    Docs: https://frouros.readthedocs.io/en/latest/api_reference/detectors/concept_drift/auto_generated/frouros.detectors.concept_drift.streaming.window_based.ADWIN.html
+S8  Li, Chu, Langford, Schapire (2010), LinUCB contextual bandit, WWW 2010.
+    https://arxiv.org/abs/1003.0146
+S9  Wu, Iyer, Wang (2018), contextual bandits in non-stationary envs.
+    https://par.nsf.gov/servlets/purl/10066035
+S10 Multiscale-LinUCB (arXiv 2002.05289): LinUCB/LinTS can suffer linear
+    regret when the environment is non-stationary.
+    https://arxiv.org/pdf/2002.05289
+S11 Amazon Builders' Library, Timeouts, retries, and backoff with jitter.
+    https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter
+S12 MLflow Model Registry docs (versions, aliases like models:/Name@champion).
+    https://mlflow.org/docs/latest/ml/model-registry
+Secondary (lower authority): Purged CV overview (Wikipedia, 5% embargo
+example) https://en.wikipedia.org/wiki/Purged_cross-validation
+
+GLOBAL CAVEATS
+- No backtest or architecture guarantees profitability. Treat all
+  thresholds below as defaults to calibrate on your data.
+- Asset class, timeframe, venue, and language/stack are unknown to me.
+  Several answers branch on them.
+- Do not paste S1-S12 findings into the vault as proof for your system;
+  they are evidence for the method, not for your implementation.
+
+=====================================================================
+SECTION 1. MARKET REGIMES AND STRATEGY SELECTION
+=====================================================================
+
+Q01 Causal regime identification
+ANSWER: Compute every feature from trailing windows only (EWMA realized
+vol, multi-horizon momentum, volume z-score vs trailing median, rolling
+cross-asset correlation). Lag features so a decision at bar t uses data
+closed at or before t. Fit the regime model (GMM, HMM, or Markov
+switching) on a training window only, normalize with train-window
+statistics only, and refit on a schedule. Use filtered inference at
+decision time, never smoothed. Break label-switching by sorting states
+by volatility (or mean) after each fit.
+SOURCES: [V] S4 (Hamilton filter), S5 (filtered vs smoothed).
+[B] feature choices, GMM/HMM options.
+EXISTING PROJECT: how are regimes defined today (rules, clusters,
+HMM)? Is the model fit on the full sample? Any use of smoothed output?
+IMPLEMENT: regime service exposing posterior(t) from filtered inference;
+frozen parameters per refit epoch; version each refit.
+VALIDATE: truncation-invariance test. Compute regime output on data
+[0..T], then on [0..T+k]; outputs for times <= T must be identical (for
+a fixed parameter set). Failing means look-ahead.
+
+Q02 Learning strategy-per-regime performance
+ANSWER: Build a (strategy x regime) performance table from out-of-sample
+walk-forward trades only, using the regime posterior at trade time (soft
+assignment, weighting trades by posterior). Apply shrinkage toward the
+global strategy mean (empirical-Bayes or hierarchical) so thin cells
+don't produce false winners. Require a minimum effective trade count per
+cell. Count every (strategy x regime) cell tested as a trial in the
+deflated-Sharpe correction. Confirm persistence by checking that the
+sign and rough size of the edge hold across sub-periods and on an
+untouched holdout.
+SOURCES: [V] S2, S3, S1 Ch7/12. [B] hierarchical shrinkage.
+EXISTING PROJECT: does selection use in-sample regime stats? Min sample
+rules? Is the number of tested cells recorded?
+IMPLEMENT: table with n_eff, shrunk mean, CI, sub-period signs, DSR.
+VALIDATE: cell edge must survive on holdout; permute regime labels
+(null test): chosen-cell performance should vanish.
+
+Q03 Real regime change vs noise; filtered probabilities
+ANSWER: Yes, use filtered probabilities (they are the only real-time
+safe output). Add: (a) hysteresis (enter new regime when posterior > hi,
+leave when < lo, e.g. 0.7/0.4), (b) minimum dwell time, (c) a sticky
+transition prior or a high self-transition probability, (d) optional
+change-point confirmation (CUSUM or ADWIN on a regime-sensitive series).
+Filtered probabilities still lag; accept that as the price of causality.
+Refit parameters expanding-window, not once on the full sample.
+SOURCES: [V] S4, S5, S6 (real-time vs revised data matters). [B]
+hysteresis and dwell thresholds.
+EXISTING PROJECT: current switching rule? Any debounce?
+IMPLEMENT: regime state machine on top of posterior(t).
+VALIDATE: count false switches per 1000 bars vs a labeled synthetic
+series with known change points; measure detection delay.
+
+Q04 Uncertainty and excessive switching
+ANSWER: When max regime posterior is below a threshold, enter an
+explicit UNCERTAIN state: reduced size or cash, not a forced pick.
+Prefer blending strategy weights by posterior over hard switching.
+Add switching cost to the selection objective (expected transaction
+cost + penalty), a cooldown after each switch, and a turnover budget per
+period.
+SOURCES: [A] design; [B] standard regularized-allocation practice.
+EXISTING PROJECT: does the selector have any cost or cooldown?
+IMPLEMENT: selector score = expected net edge - switch_penalty, gated by
+cooldown timer and posterior confidence.
+VALIDATE: switches per month, % time in UNCERTAIN, net performance with
+vs without the controls (must improve net, not just reduce switches).
+
+Q05 Contextual multi-armed bandit
+ANSWER: Feasible, with two caveats. Arms = strategies/models (include a
+"no trade" arm). Context = regime posterior plus a few causal features.
+Candidates: LinUCB or linear Thompson sampling. Caveat 1: LinUCB-type
+methods assume stationarity and can fail badly when the environment
+changes, so use a non-stationary variant (discounting, sliding window,
+or change-point restart). Caveat 2 [A]: in backtests and paper trading
+you can compute every strategy's hypothetical return each period, so
+you often have full-information feedback, not bandit feedback; use that
+to learn faster, and reserve true bandit logic for live capital.
+Reward: realized net-of-cost, volatility-normalized return over the
+strategy's holding horizon, minus a drawdown penalty. Credit reward only
+when the position closes or the horizon expires (delayed reward), and
+never use the same data twice for reward and context.
+SOURCES: [V] S8, S9, S10. [A] full-information point.
+EXISTING PROJECT: any online selector today? How is reward defined?
+IMPLEMENT: bandit module with pluggable reward, replayable from logs.
+VALIDATE: offline replay against logged data (off-policy evaluation),
+regret vs best fixed strategy and vs regime-oracle, under purged splits.
+
+Q06 Exploration without repeatedly picking bad strategies
+ANSWER: Tiered capital ladder: shadow (no capital) -> paper -> tiny
+live -> normal. Exploration only consumes the shadow/tiny tier, with a
+fixed risk budget. For live selection use a lower confidence bound
+(LCB), not UCB. Require a minimum number of independent trades before
+any promotion, apply successive-halving to cull, and put culled
+strategies on a cooldown (no re-test until context materially changes).
+Count all explored strategies in the DSR trial count.
+SOURCES: [V] S2, S8. [B] successive halving, LCB for safety.
+EXISTING PROJECT: any cap on exploration? Is the trial count tracked?
+IMPLEMENT: strategy lifecycle states with promotion/demotion rules.
+VALIDATE: fraction of capital in unproven strategies <= budget; no
+demoted strategy re-enters before its cooldown.
+
+Q07 Additional market data
+ANSWER (candidates, ranked by plausible lead time):
+- Implied volatility level, term structure, skew (equities/FX/crypto
+  options): forward-looking vs realized vol.
+- Options positioning (put/call, open interest, dealer gamma estimates).
+- Liquidity: bid-ask spread, depth, order-book imbalance.
+- Volume/participation anomalies.
+- Breadth (advance/decline, % above moving average) for equities.
+- Crypto-specific: funding rates, open interest, liquidation data,
+  exchange/stablecoin flows.
+All must be point-in-time (see Q17) and cost/licensing is a real
+constraint. Leading-indicator claims are hypotheses: test them
+incrementally (Q8).
+SOURCES: [B] only. Unverified; asset class unknown.
+EXISTING PROJECT: which assets, which feeds exist?
+IMPLEMENT: add feeds behind the same validation and as-of framework.
+VALIDATE: Q8 incremental test per feed.
+
+Q08 Do new indicators really help?
+ANSWER: Pre-register the hypothesis, then run an ablation on identical
+purged walk-forward splits: with vs without the new feature. Compare
+out-of-sample regime-prediction log-likelihood (or downstream net
+performance), use penalized criteria (BIC), and use importance methods
+that respect leakage (MDA with purged CV, per AFML Ch8). Require the
+gain to exceed a bootstrap confidence interval. Count the feature
+search in the trial ledger (DSR/PBO).
+SOURCES: [V] S1 (Ch8 listed), S2, S3.
+EXISTING PROJECT: feature selection procedure? Any ablation history?
+IMPLEMENT: ablation harness; a feature is admitted only with a record.
+VALIDATE: gain stable across sub-periods and assets; no gain when the
+feature is replaced by a noise column of the same distribution.
+
+=====================================================================
+SECTION 2. HISTORICAL ML TRAINING AND VALIDATION
+=====================================================================
+
+Q09 Measure and control overfitting probability
+ANSWER: Keep a trial ledger recording every strategy/parameter/feature
+configuration evaluated. Report (a) Deflated Sharpe Ratio using the
+effective number of independent trials (cluster similar trials), (b)
+Probability of Backtest Overfitting via CSCV, (c) the distribution of
+out-of-sample results across CPCV paths, not one number. Gate
+promotions on these. The paper's abstract notes ordinary hold-out is
+unreliable for backtests, so hold-out alone is not enough.
+SOURCES: [V] S2, S3, S1 Ch12.
+EXISTING PROJECT: is there any trial count or overfitting statistic?
+IMPLEMENT: trial_ledger table; DSR/PBO computed per candidate.
+VALIDATE: run on a known-random strategy factory: DSR/PBO should flag
+the best random strategy as not significant.
+
+Q10 Untouched evaluation periods
+ANSWER: Reserve a final vault period never used for selection, plus a
+forward paper-trading period as the ultimate vault. Enforce with
+mechanics, not discipline: read-only data partition, access only via a
+single evaluation service, one access counter per candidate family, and
+every access written to the audit log (Q40). Once a vault period has
+influenced any decision, it is burned: retire it and rely on newer
+forward data. Hold-out is necessary but not sufficient (Q9).
+SOURCES: [V] S3 (hold-out reliability concern). [A] mechanics.
+EXISTING PROJECT: how is data split? Can training code read all data?
+IMPLEMENT: vault partition + evaluator service + burn registry.
+VALIDATE: attempt to read vault from training code (must fail); audit
+log lists every vault access.
+
+Q11 Rolling training and forward testing
+ANSWER: Nested design: outer walk-forward (train on past, test on
+strictly later data, with a gap), inner purged k-fold with embargo for
+hyperparameter selection inside each training window. Purge training
+samples whose label horizon overlaps the test fold; embargo after the
+test fold. Walk-forward yields a single historical path, so complement
+it with CPCV for a distribution of outcomes.
+SOURCES: [V] S1 (Ch7.4 purging/embargo, Ch12.2.1 walk-forward pitfalls,
+12.4 CPCV), secondary purged-CV overview.
+EXISTING PROJECT: current split method? Any purging for overlapping
+labels?
+IMPLEMENT: splitter library with purge+embargo+gap; one code path used
+by all experiments.
+VALIDATE: unit test that no training label's [t_in, t_out] span
+overlaps any test span; compare naive k-fold vs purged results to
+quantify leakage in your own data.
+
+Q12 Window lengths and gaps
+ANSWER: Rules of thumb to calibrate, not magic numbers:
+- Train window: enough effective (uniqueness-weighted) samples for the
+  model class; check learning curves.
+- Test window: enough independent trades for statistical power.
+- Gap: at least the maximum label horizon (max holding period) plus the
+  longest feature lookback that is not already lagged.
+- Embargo: a small fraction of samples (a secondary source uses 5% as an
+  example) to handle serial correlation.
+- Relate cadence to regime persistence: expected regime duration is
+  1/(1-p_ii) from the transition matrix; retrain/test windows should not
+  exceed a fraction of it.
+Choose by stability of out-of-sample metrics across candidate window
+settings, and count that search as trials.
+SOURCES: [V] S1 (purge/embargo), secondary (5% example). [A] sizing logic.
+EXISTING PROJECT: current window sizes and their rationale?
+IMPLEMENT: window_config derived from timeframe, horizon, regime
+durations.
+VALIDATE: OOS metrics as a function of window length: flat region =
+robust; sharp peak = overfit choice.
+
+Q13 Labels with volatility-adjusted targets
+ANSWER: Triple-barrier labeling: profit-take and stop-loss barriers set
+as multiples of a trailing volatility estimate computed at the event
+time (no future data), plus a vertical barrier equal to the maximum
+holding period. Label = which barrier is touched first (or sign/return
+at the vertical). Sample events with a filter (e.g., CUSUM) rather than
+every bar. Record each label's touch time t1: it is required for
+purging. Weight samples by uniqueness (concurrent labels overlap).
+Include fees/slippage in the barrier definition so "win" means net win.
+SOURCES: [V] S1 (Ch3.4, Ch4 weights listed), plus an open-source
+implementation (fynance docs) showing the scheme.
+EXISTING PROJECT: how are win/loss labels defined today?
+IMPLEMENT: labeler outputs (t_in, t_out, label, ret, weight).
+VALIDATE: labels reproduce on a synthetic path with known barrier
+touches; label distribution not degenerate; t_out always > t_in.
+
+Q14 Primary model + meta-labeling model
+ANSWER: Primary model proposes the side (long/short/none), ideally with
+high recall. Secondary binary classifier takes primary's signal plus
+context (regime posterior, volatility, primary confidence) and predicts
+whether that bet will pay (triple-barrier outcome). Use its calibrated
+probability to accept/reject, and map probability to size or risk tier.
+Train on purged splits with uniqueness weights, calibrate probabilities,
+and evaluate net of costs. Risk: meta-model overfits thin data.
+SOURCES: [V] S1 (Ch3.6-3.7).
+EXISTING PROJECT: is there a strategy-acceptance model today?
+IMPLEMENT: two-stage pipeline with separate version ids.
+VALIDATE: meta-filtered strategy beats unfiltered strategy net of costs
+on OOS/CPCV; calibration curve near diagonal.
+
+Q15 Statistical vs financial metrics
+ANSWER: Use both and keep them separate.
+Statistical: log-loss, Brier score, calibration error, AUC/precision/
+recall for meta-labels.
+Financial (net of costs, after sizing): Sharpe/Sortino, max drawdown,
+Calmar, profit factor, hit rate x payoff, turnover, tail ratio,
+capacity, plus PSR/DSR for significance.
+Predictive accuracy is necessary context, not proof of profit: a
+classifier can be accurate and lose money after costs or from payoff
+asymmetry. Gate: statistical skill AND positive net risk-adjusted
+performance.
+SOURCES: [V] S2 for significance; [B] metric list.
+EXISTING PROJECT: which metrics drive selection today?
+IMPLEMENT: single metrics module; every report shows both families.
+VALIDATE: metrics reproduce on a synthetic strategy with known Sharpe.
+
+Q16 Ranking strategies with competing virtues
+ANSWER: Hard gates first (max drawdown limit, minimum trades, minimum
+DSR), then rank survivors by a pre-registered score such as net
+Sharpe/Calmar computed on a lower confidence bound, with the worst-
+regime performance and the fraction of profitable test windows as
+explicit terms. Alternatively present the Pareto front
+(return/drawdown/consistency) and pick via a fixed rule. Never rank by
+total return alone. Fix the scoring rule before looking at results.
+SOURCES: [B]/[A].
+EXISTING PROJECT: current ranking formula?
+IMPLEMENT: scoring config under version control.
+VALIDATE: rank stability under bootstrap resampling of windows.
+
+=====================================================================
+SECTION 3. DATA INTEGRITY AND MARKET INTELLIGENCE
+=====================================================================
+
+Q17 Point-in-time reconstruction
+ANSWER: Store two timestamps per record: event_time and available_time
+(when the system could actually have known it). Build features with
+as-of joins on available_time. Keep vintages (every revision as a new
+row with revision id) so the dataset can be reconstructed as of any
+past moment. A candle is available only after it closes. Real-time vs
+revised data materially changes regime filters (macro example in S6).
+Watch survivorship and symbol-change effects for equities.
+SOURCES: [V] S6. [B] bitemporal modeling.
+EXISTING PROJECT: are timestamps single or bitemporal? Are revisions
+overwritten?
+IMPLEMENT: bitemporal tables; as-of join utility used everywhere.
+VALIDATE: reconstruct features "as of" past date D and confirm no row
+with available_time > D contributes.
+
+Q18 Synchronizing multiple sources
+ANSWER: Normalize everything to UTC with a single clock policy. Per
+source, measure empirical publication lag and set available_time =
+event_time + lag (or the actual ingestion stamp). Align to a common
+grid using as-of joins with a staleness tolerance and a staleness flag
+feature. Keep raw data immutable; corrections arrive as new versions.
+Map symbols/venues explicitly; handle sessions, holidays, DST.
+SOURCES: [B].
+EXISTING PROJECT: how are cross-venue timestamps reconciled?
+IMPLEMENT: ingestion adapters emit canonical schema + lag metadata.
+VALIDATE: replay a day: aligned features identical across reruns;
+cross-venue price gaps within expected tolerance.
+
+Q19 Automated validation rules
+ANSWER (checks):
+- Candle grid completeness against expected timestamps and calendar.
+- Duplicate primary keys (symbol, venue, timeframe, timestamp).
+- OHLC invariants (low <= open,close <= high; prices > 0).
+- Return-jump outliers via robust z/MAD relative to trailing vol.
+- Volume: non-negative, spike and long zero-run detection.
+- Timestamps monotonic; no future timestamps; timezone consistent.
+- Cross-venue price deviation beyond tolerance.
+- Schema drift: column set, dtypes, units (hash the schema).
+- Null rates and value-range drift per field.
+Tools: pandera or Great Expectations are common options [B].
+EXISTING PROJECT: which checks exist and where do they run?
+IMPLEMENT: validation suite on ingest and again before training.
+VALIDATE: inject synthetic faults (gap, duplicate, bad tick); each must
+be caught with the right rule code.
+
+Q20 Corrupted or incomplete historical data
+ANSWER: Severity-tiered policy, not one action:
+1. Deterministic safe fixes (exact dedupe) may be automatic.
+2. Re-fetch from the same or secondary source, accepted only after
+   cross-verification.
+3. Otherwise quarantine the records with a reason code, and mask every
+   label/feature window whose horizon touches them.
+4. Never silently interpolate or forward-fill prices used for training.
+5. Halt the relevant training run if quarantined fraction exceeds a set
+   threshold or if the validation/holdout period is affected.
+Live: stale or corrupt data means no new entries.
+SOURCES: [B]/[A].
+EXISTING PROJECT: current handling of gaps?
+IMPLEMENT: quarantine table + masks + halt thresholds.
+VALIDATE: training run after quarantine excludes exactly the affected
+windows; halt triggers fire in a fault-injection test.
+
+Q21 Data freshness thresholds
+ANSWER: Per (source, asset, timeframe) derive thresholds from the
+historical distribution of inter-arrival gaps (e.g., a high percentile
+plus a margin), aware of market calendars and timeframe length. This
+mirrors the percentile-based timeout approach used in distributed
+systems. Detect "pipeline healthy but no new data" by comparing the
+latest event timestamp to wall-clock (watermark lag), checking sequence
+numbers for gaps, and cross-checking a second source. Heartbeat alone
+is insufficient.
+SOURCES: [V] S11 (percentile-based timeout idea, analogy). [A] design.
+EXISTING PROJECT: any staleness alerting?
+IMPLEMENT: freshness monitor with per-key thresholds and states
+(FRESH/STALE/DEAD).
+VALIDATE: pause a feed in a test; alert fires within threshold; no
+alert during legitimate market closures.
+
+Q22 Ingestion failure recovery
+ANSWER: Retry with capped exponential backoff and jitter; limit retries
+with a token-bucket retry budget so recovery traffic cannot overwhelm
+the source. Retry only idempotent operations (design writes to be
+idempotent). For streams: reconnect, detect sequence gaps, then backfill
+the missing range via a historical endpoint. Verify recovered data by
+counts, invariants (Q19), and cross-source comparison before releasing
+it to training.
+SOURCES: [V] S11. [B] reconnect/backfill pattern.
+EXISTING PROJECT: current retry/backfill logic?
+IMPLEMENT: ingestion state machine with gap ledger.
+VALIDATE: kill the connection mid-stream in test; gap detected,
+backfilled, verified, no duplicates.
+
+=====================================================================
+SECTION 4. CONTINUOUS LEARNING AND DEGRADATION DETECTION
+=====================================================================
+
+Q23 Adaptive-window drift detection
+ANSWER: ADWIN keeps a variable-length window, compares sub-windows, and
+shrinks the window when the means differ significantly; its main
+parameter is a confidence bound delta controlling false positives
+(some implementations default to 0.002). Apply it to performance-
+relevant streams (per-strategy per-regime trade returns or errors,
+meta-model calibration error), not raw prices. Use a warning level
+before a drift level, and account for many parallel streams (false
+alarm control across them).
+SOURCES: [V] S7.
+EXISTING PROJECT: any drift detection now?
+IMPLEMENT: per-key ADWIN (or equivalent) on error/PnL residual streams.
+VALIDATE: inject a known shift in synthetic data; measure detection
+delay and false alarm rate.
+
+Q24 Response to detected drift
+ANSWER: Decision order:
+1. Rule out pipeline faults first (Q26).
+2. Feature drift only, performance fine: monitor.
+3. Degradation confined to one (strategy, regime) cell: shrink or
+   disable that cell.
+4. Broad degradation: train challenger(s) in shadow.
+5. Data poorly explained by all existing regimes (low likelihood under
+   every regime): candidate new regime, evaluated in shadow.
+6. Severe loss or uncertainty: flat/disable until resolved.
+Any replacement must pass the acceptance criteria in Q30.
+SOURCES: [A].
+EXISTING PROJECT: current retraining trigger?
+IMPLEMENT: drift-response policy table, versioned.
+VALIDATE: simulate each drift type; policy output matches table.
+
+Q25 Feature drift and prediction drift
+ANSWER: Monitor separately. Feature drift: per-feature two-sample
+tests (KS, or PSI/Wasserstein) comparing a rolling window to the
+training reference. Prediction drift: distribution of predicted
+probabilities (e.g., JS divergence) plus calibration. Control
+false alarms with FDR correction across features, require persistence
+over several windows and a minimum effect size. A commonly used PSI
+rule of thumb is <0.1 stable, 0.1-0.25 moderate, >0.25 large; treat as
+a heuristic. Drift means investigate, not automatically retrain.
+SOURCES: [B] (tests, PSI heuristics); verify thresholds on your data.
+EXISTING PROJECT: any distribution monitoring?
+IMPLEMENT: drift report job with per-feature p-value, effect size,
+persistence counter.
+VALIDATE: shifted synthetic feature flagged; stationary noise not
+flagged beyond the configured false alarm rate.
+
+Q26 Harmless change vs concept drift vs pipeline failure
+ANSWER: Triage in this order:
+1. Pipeline checks (freshness, validation, schema, second-source
+   comparison). If failing, label PIPELINE FAILURE and freeze
+   retraining.
+2. Features moved but performance/calibration intact: covariate shift,
+   harmless for now.
+3. Performance or calibration degraded while data is healthy, and the
+   input-to-outcome relationship changed (error stream drifts): concept
+   drift.
+Also check scope: market-wide, multi-asset shifts point to regime/
+market change; single-source shifts point to data or venue issues.
+SOURCES: [A], with [V] S7 for the error-stream detector.
+EXISTING PROJECT: does retraining ever fire on bad data?
+IMPLEMENT: triage function returning one of three labels with evidence.
+VALIDATE: fault-injection suite covering each label.
+
+Q27 What to record continuously
+ANSWER: An append-only event log with: raw-input snapshot id/hash,
+feature vector and feature-code version, timestamps (event, available,
+decision, order, fill), regime posterior, model id/version, prediction
+and probability, strategy selection with scores and an explore/exploit
+flag, risk-gate decisions, orders/fills with realized costs, barrier
+outcomes/labels, config hash. This enables attribution: data vs
+feature vs model vs selection vs execution.
+SOURCES: [A].
+EXISTING PROJECT: what is logged today? Can a past decision be
+replayed exactly?
+IMPLEMENT: structured log (parquet/SQL), schema versioned.
+VALIDATE: pick a past trade; replay from log reproduces the same
+decision.
+
+Q28 Per-component health isolation
+ANSWER: Key metrics by (asset, regime, timeframe, strategy,
+model_version). Each key has a state machine: HEALTHY, DEGRADED,
+QUARANTINED, DISABLED, with minimum-sample requirements and shrinkage
+for thin cells. Bulkhead rule: a failing key cannot alter other keys.
+Roll up to global status only for systemic signals (data pipeline
+failure, risk-limit breach).
+SOURCES: [A]; [V] S11 (failure isolation principle).
+EXISTING PROJECT: is there any partial shutdown capability?
+IMPLEMENT: health registry with per-key policies.
+VALIDATE: degrade one key in simulation; only that key changes state.
+
+=====================================================================
+SECTION 5. AUTONOMOUS ML OPERATIONS AND MODEL MANAGEMENT
+=====================================================================
+
+Q29 Continuous ML pipeline
+ANSWER: Orchestrated DAG: trigger (schedule, drift, enough new data,
+degradation) -> versioned data snapshot -> validation (Section 3) ->
+feature build -> train challenger(s) with a capped trial budget ->
+purged/CPCV evaluation -> DSR/PBO -> champion-vs-challenger comparison
+on identical OOS windows -> shadow/paper -> promotion decision (Q30).
+"Discovering training opportunities" means defined triggers and a
+budgeted candidate generator, not unbounded search. Orchestrator
+options: Prefect, Dagster, Airflow [B].
+SOURCES: [V] S2, S3, S12 (champion/challenger aliases). [B] orchestrators.
+EXISTING PROJECT: what drives training today (manual, cron)?
+IMPLEMENT: pipeline with run ids, caps, and per-stage artifacts.
+VALIDATE: end-to-end dry run on a historical period; reproducible
+outcome (Q33).
+
+Q30 Acceptance criteria for replacing a model
+ANSWER: All of the following, pre-registered:
+- Net OOS performance better than the champion by a margin, with a
+  statistical test on paired differences (block bootstrap of PnL).
+- DSR above threshold with correct trial count; PBO below threshold.
+- No regime materially worse than champion; max drawdown within limit.
+- Calibration acceptable; stable across sub-windows.
+- Independent validation: untouched vault (Q10), a forward shadow/paper
+  period, and a separate evaluator code path.
+Threshold values are your risk policy, not literature constants.
+SOURCES: [V] S2, S3. [A] composition.
+EXISTING PROJECT: how are models replaced today?
+IMPLEMENT: promotion gate as code with a signed decision record.
+VALIDATE: a deliberately worse or leaky challenger is rejected.
+
+Q31 Model registry
+ANSWER: Use a registry with versions, aliases (champion, challenger),
+and tags; MLflow Model Registry supports this (aliases referenced as
+models:/Name@champion; stages are the older approach). Record per
+version: training data snapshot hash and date range, feature list and
+code version (git SHA), hyperparameters, algorithm and library versions,
+seeds, evaluation metrics and trial count, parent champion, performance
+history over time, deployment status, alias history. A plain
+Postgres/SQLite table plus immutable artifact files works if you avoid
+MLflow.
+SOURCES: [V] S12.
+EXISTING PROJECT: how are models stored/named today?
+IMPLEMENT: registry with immutable artifacts; alias pointer is the only
+mutable thing.
+VALIDATE: from a version id, reconstruct exactly what trained it.
+
+Q32 Promotion and rollback
+ANSWER: Stages: candidate -> shadow -> small-risk canary -> full.
+Promotion is an atomic alias repoint. Keep the last N known-good
+versions loadable. Rollback triggers (pre-registered): live/paper
+performance below a bound derived from the champion's expectation
+(CUSUM/SPRT on PnL residual), drawdown, calibration, error rates.
+Rollback = repoint alias to last known good, never retrain on the fly.
+Add cooldown/hysteresis to prevent flip-flopping, and rollback must not
+bypass risk limits.
+SOURCES: [V] S12 (aliases). [B] CUSUM/SPRT. [A] ladder.
+EXISTING PROJECT: can you revert instantly today?
+IMPLEMENT: deployment controller with alias swap and trigger monitor.
+VALIDATE: simulate a degrading new model; rollback within the defined
+latency; no flip-flop.
+
+Q33 Reproducibility
+ANSWER: Version data (DVC, lakeFS, or content-hashed parquet
+snapshots), pin code (git SHA plus dirty-flag check), hash the config,
+seed every RNG, lock the environment (lockfile or container digest),
+and track experiments with dataset inputs logged (MLflow supports
+logging dataset inputs). "Guarantee" is tested, not asserted: rerun and
+compare artifact hashes or metrics within tolerance; GPU/threading
+nondeterminism may require a tolerance.
+SOURCES: [V] S12 (tracking/registry context). [B] DVC/lakeFS.
+EXISTING PROJECT: can last month's run be reproduced today?
+IMPLEMENT: run manifest (data hash, SHA, config hash, env digest, seeds).
+VALIDATE: scheduled "replay a random old run" job comparing outputs.
+
+Q34 Orchestration and safe resumption
+ANSWER: Make every step idempotent and keyed by a deterministic run key
+(hash of inputs). Write outputs atomically (temp file then rename),
+treat model artifacts as immutable, and move the registry pointer last.
+Checkpoint long training. Use leases with heartbeats to prevent two
+workers doing the same task. Persist task state so resume skips
+completed steps and re-runs only incomplete ones. Keep training
+workspace separate from production registry so a crashed experiment
+cannot corrupt live models.
+SOURCES: [V] S11 (idempotency requirement for safe retries). [B] patterns.
+EXISTING PROJECT: what happens if training dies midway?
+IMPLEMENT: task-state table + lease manager + atomic publish.
+VALIDATE: kill -9 at random steps; resumed run produces identical final
+artifacts with no duplicates and no partial model visible.
+
+=====================================================================
+SECTION 6. TRADING REALISM AND INDEPENDENT RISK PROTECTION
+=====================================================================
+
+Q35 Realistic execution simulation
+ANSWER: Include: maker/taker fees (tiered), bid-ask spread (from quotes
+if available, otherwise a conservative estimate), slippage as a function
+of size relative to liquidity and volatility, latency (signal on bar t
+executes no earlier than the next tradable moment), partial fills and
+limit-order fill probability, funding/borrow costs, tick/lot size,
+rejects. Fill at next bar's open or later, never the same bar's close.
+Stress by running costs at 1.5-2x; a strategy that dies under mild
+cost stress is fragile.
+SOURCES: [B]/[A].
+EXISTING PROJECT: what costs does the backtester include?
+IMPLEMENT: pluggable execution model with calibrated parameters (Q36).
+VALIDATE: cost sweep chart; zero-cost vs realistic-cost gap reported.
+
+Q36 Backtest assumptions vs paper trading
+ANSWER: Run paper trading with logging of intended vs realized fills.
+Then re-simulate the same live period in the backtester and diff
+trades and PnL; the difference decomposes into signal differences vs
+execution differences. Compare per-trade slippage distributions
+(assumed vs measured) and feed measured costs back into the simulator.
+Track an edge-retention ratio (paper net edge / backtest net edge).
+Note paper trading itself is optimistic (no real market impact, often
+generous fills) [B].
+SOURCES: [B]/[A].
+EXISTING PROJECT: is paper trading running and logged?
+IMPLEMENT: reconciliation job and cost-calibration loop.
+VALIDATE: edge-retention ratio trend; flag strategies below threshold.
+
+Q37 Independent risk controls
+ANSWER: Separate process with separate code and credentials, able only
+to reduce risk. Pre-trade checks: max order size, price collar,
+position/exposure/notional limits, order-rate limits. Real-time
+triggers: daily loss, drawdown, abnormal order rate, stale or corrupt
+data, position mismatch vs venue, model anomalies. Fail-safe default:
+if the strategy process stops sending heartbeats, halt. Reduce exposure
+with exchange-side protections where possible and use API keys without
+withdrawal rights. Reconcile positions continuously. For regulated
+markets, check applicable pre-trade control rules [B, unverified].
+SOURCES: [B].
+EXISTING PROJECT: are risk limits enforced inside the strategy code
+(bad) or outside (good)?
+IMPLEMENT: risk gateway between strategy and venue; kill switch.
+VALIDATE: inject each breach type in paper mode; each stops trading
+within the defined time.
+
+Q38 Self-healing without re-enabling trading
+ANSWER: One-way latch owned by the risk layer: after an emergency
+shutdown, only an explicit manual (or signed, authenticated) action
+clears it. Persist the latch durably so restarts do not reset it. The
+self-healer may restart components into PAUSED/safe mode only; restart
+never equals re-enable. Distinguish soft halts (auto-clearable after
+conditions plus cooldown) from hard halts (manual). The healer has no
+write access to risk limits (config hash-checked). Reconcile positions
+before any resume.
+SOURCES: [A].
+EXISTING PROJECT: can a supervisor restart reset a halted state?
+IMPLEMENT: latch in the risk store; healer permissions restricted.
+VALIDATE: trigger hard halt, crash and restart everything: trading
+must remain disabled.
+
+Q39 Pre-acceptance testing
+ANSWER: Layered gates in CI before any strategy/model/config change is
+accepted:
+- Unit and property-based tests on engine, labeler, splitter.
+- Leakage tests: truncation invariance (Q1), shifted-future test,
+  shuffled-label test (Sharpe near zero), random-signal test.
+- Backtest-engine tests on synthetic data with known answers.
+- Config schema validation.
+- Frozen-dataset regression against the previous champion.
+- Failure-injection (chaos) tests on ingestion and risk paths.
+- Shadow/paper period.
+SOURCES: [A]/[B].
+EXISTING PROJECT: what tests exist today?
+IMPLEMENT: test suite wired into the promotion gate (Q30).
+VALIDATE: seeded leaky pipeline must fail the leakage tests.
+
+Q40 Permanent audit trail
+ANSWER: Append-only, tamper-evident log (hash chain: each record
+includes the previous record's hash, or WORM storage), stored apart
+from the application DB. Cover: strategy decisions with inputs, model
+promotions/rollbacks, failed experiments (also needed for honest trial
+counts), recovery actions, and any change to risk limits (who, what,
+when, old value, new value), plus vault accesses (Q10). Keep Obsidian
+for human-readable summaries; the machine log is the source of truth.
+SOURCES: [A]/[B].
+EXISTING PROJECT: are config changes tracked?
+IMPLEMENT: audit service with chain verification job.
+VALIDATE: tamper with an old record; verification job detects it.
+
+=====================================================================
+SECTION 7. SELF-HEALING INFRASTRUCTURE AND INDEFINITE OPERATION
+=====================================================================
+
+Q41 Independent health monitoring and stuck-process detection
+ANSWER: Watchdog in a separate process. Distinguish liveness (process
+up), readiness (can serve), and progress (work is advancing). Detect
+"running but stuck" via progress counters per component (rows
+processed, last checkpoint advanced, queue depth, loss/iteration
+change, throughput) with thresholds derived from historical durations
+(high percentile plus margin). Dead-man switch: no progress signal in
+the window raises an alert/action.
+SOURCES: [B]; [V] S11 for the percentile-threshold idea.
+EXISTING PROJECT: do processes report progress or only heartbeats?
+IMPLEMENT: progress counters emitted by each stage; watchdog policy.
+VALIDATE: freeze a stage with the process alive; watchdog flags it.
+
+Q42 Restart, restore, reconcile, verify
+ANSWER: Supervisor restarts with bounded policy. On startup run a
+reconciliation sequence while PAUSED: compare internal positions and
+open orders with the venue; find orphaned tasks (expired leases); rerun
+incomplete idempotent tasks; verify registry alias matches the deployed
+artifact hash, data snapshot hash is as expected, processing timestamps
+are continuous, and the PnL ledger equals fills. Resume only after all
+checks pass (and never past a hard-halt latch, Q38).
+SOURCES: [A]/[B].
+EXISTING PROJECT: what happens at process start?
+IMPLEMENT: startup verifier with explicit pass/fail report.
+VALIDATE: crash during order placement in paper mode; state reconciles
+correctly.
+
+Q43 Retry limits, backoff, jitter, circuit breakers, isolation
+ANSWER: Capped exponential backoff with jitter; per-dependency retry
+limits; retries at one layer only (stacked layers multiply load: the
+source gives an example where three tries per layer across a five-deep
+stack becomes 243x); a local token-bucket retry budget; timeouts set
+from downstream latency percentiles; retry only idempotent calls.
+Circuit breakers help stop calling a failing dependency, but the same
+source warns they add modal behavior that is hard to test and can
+lengthen recovery, so pair them with token buckets and test them
+explicitly. Add bulkheads: separate pools/queues/processes per
+dependency so one cannot starve others.
+SOURCES: [V] S11.
+EXISTING PROJECT: do retries live in several layers?
+IMPLEMENT: shared resilience library (one retry policy, one breaker
+implementation).
+VALIDATE: fault injection: failing dependency produces bounded retries
+and bounded load, and the rest of the system keeps running.
+
+Q44 Temporary vs permanent vs cascading failures; no endless loops
+ANSWER: Classify by error taxonomy plus counters in time windows.
+- Temporary: timeouts, 429/5xx, resets. Bounded retry (Q43).
+- Permanent: auth failure, invalid request, schema break, deterministic
+  corruption. Fail fast, no retry, alert and quarantine.
+- Cascading: correlated errors across components, rising retry rates,
+  queue growth. Trip breakers, shed load, degrade gracefully (last
+  known good model, no new entries, read-only mode).
+Escalate temporary to permanent when the retry budget or max elapsed
+time is exhausted; send poison tasks to a dead-letter queue. Preserve
+completed work with checkpoints (Q34) and resume from them. Stop
+endless loops with max attempts, max elapsed time, task-level cooldown
+growth, and human escalation.
+SOURCES: [V] S11 (backoff, retry limits, breakers). [A] taxonomy.
+EXISTING PROJECT: any dead-letter or max-elapsed handling?
+IMPLEMENT: failure classifier + dead-letter queue + degradation modes.
+VALIDATE: scenario tests for each class; no scenario produces
+unbounded retries.
+
+=====================================================================
+SUGGESTED BUILD ORDER (MINIMUM RISK FIRST) [A]
+=====================================================================
+1. Q37, Q38, Q40, Q27 (independent risk layer, latch, audit, logging)
+2. Q17-Q22 (point-in-time data and validation)
+3. Q11-Q13, Q9-Q10 (leakage-free validation, overfitting accounting)
+4. Q35-Q36 (execution realism, paper reconciliation)
+5. Q1-Q4 (causal regimes with hysteresis)
+6. Q23-Q28 (drift and health)
+7. Q31-Q34 (registry, promotion, reproducibility)
+8. Q5-Q6 (bandit selection), only after steps 1-7 exist
+
+OBSIDIAN INDEX (one note per question; suggested filenames)
+ML Trading Project/Research/<Section>/Q01-causal-regimes.md ... Q44-...
+Each note: question, answer, sources (URL, title, date, authors),
+verification tag, existing-project findings, implementation decision,
+validation criteria, status.
+=====================================================================

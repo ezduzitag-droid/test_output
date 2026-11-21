@@ -1,0 +1,490 @@
+2 memories
+Projects
+›
+Ai Trading Lab
+Recalled 2 memories
+Ai Trading Lab, Index
+
+Reviewing the crypto trading assets and their data source.
+
+Mapping the research questions to the raw plan items.
+
+Checking which raw items belong to each research question.
+
+RePEc:gam:jjrfmx:v:13:y:2020:i:12:p:311 :d:457386
+econpapers.repec.org
+www.deutsche-digitale-bibliothek.de
+www.deutsche-digitale-bibliothek.de
+www.deutsche-digitale-bibliothek.de
+www.deutsche-digitale-bibliothek.de
+Next Article in Journal
+www.mdpi.com
+Regime-switching factor investing with hidden Markov models
+bvbvf1.bib-bvb.de
+Regime-Switching Factor Investing with Hidden Markov Models
+mdpi.com
+Regime-Switching Factor Investing with Hidden Markov Models
+ideas.repec.org
+Regime-switching factor investing with hidden Markov models
+www.econbiz.de
+Regime-Switching Factor Investing with Hidden Markov Models
+www.sciencegate.app
+mpra.ub.uni-muenchen.de
+mpra.ub.uni-muenchen.de
+Checking the cited paper's publication details.
+Fetched: Regime-Switching Factor Investing with Hidden Markov Models
+https://www.mdpi.com/1911-8074/13/12/311/htm
+API Reference
+hmmlearn.readthedocs.io
+API Reference
+hmmlearn.readthedocs.io
+API Reference
+hmmlearn.readthedocs.io
+API Reference#
+hmmlearn.readthedocs.io
+API Reference
+hmmlearn.readthedocs.io
+API Reference¶
+hmmlearn.readthedocs.io
+API Reference¶
+hmmlearn.readthedocs.io
+
+Checking hmmlearn's documented Viterbi and smoothing behavior.
+
+Checking whether smoothed posteriors leak future information.
+
+escholarship.org
+escholarship.org
+econpapers.repec.org
+econpapers.repec.org
+Journal of Computational Finance
+www.risk.net
+IDEAS home Printed from https://ideas.repec.org/a/rsk/journ0/2471206.html
+ideas.repec.org
+Journal of Computational Finance
+www.risk.net
+The Probability of Backtest Overfitting
+papers.ssrn.com
+The Probability of Backtest Overfitting
+scholarworks.wmich.edu
+Journal of Computational Finance
+risk.net
+THE PROBABILITY OF BACKTEST OVERFITTING
+files.cnblogs.com
+Professional Documents
+www.scribd.com
+
+Checking the PBO result before the next step.
+
+Setting up a sandbox test of the filter and smoother.
+
+bash
+
+cd /home/claude && pip install hmmlearn scipy numpy --break-system-packages -q 2>&1 | tail -2; python -c "import hmmlearn, scipy, numpy; print('hmmlearn', hmmlearn.__version__, 'numpy', numpy.__version__, 'scipy', scipy.__version__)"
+
+Output
+
+hmmlearn 0.3.3 numpy 2.5.4 scipy 1.18.1
+
+Running a quick empirical check of HMM filtering versus smoothing (look-ahead) on synthetic data, then I'll write up Q01.
+
+bash
+
+cd /home/claude && cat > hmm_lookahead_test.py << 'EOF'
+"""Q01 verification: filtered vs smoothed HMM regime probabilities (synthetic data only)."""
+import numpy as np
+from hmmlearn.hmm import GaussianHMM
+from scipy.stats import multivariate_normal
+
+rng = np.random.default_rng(7)
+
+# --- synthetic 2-regime, 2-feature series (NOT market data) ---
+T, K = 3000, 2
+A_true = np.array([[0.98, 0.02], [0.05, 0.95]])
+mu = np.array([[0.0005, 0.004], [-0.0010, 0.015]])      # [return, vol-proxy]
+sd = np.array([[0.004, 0.0015], [0.012, 0.005]])
+s = np.zeros(T, int)
+for t in range(1, T):
+    s[t] = rng.choice(K, p=A_true[s[t - 1]])
+X = rng.normal(mu[s], sd[s])
+
+TRAIN = 2000
+model = GaussianHMM(n_components=K, covariance_type="full", n_iter=200, random_state=0)
+model.fit(X[:TRAIN])                                     # parameters see only data < TRAIN
+
+def forward_filter(model, X):
+    """Causal filtered P(s_t | x_1..x_t) using fixed fitted params. O(T*K^2)."""
+    K = model.n_components
+    B = np.column_stack([
+        multivariate_normal(model.means_[k], model.covars_[k], allow_singular=True).pdf(X)
+        for k in range(K)])
+    out = np.zeros((len(X), K))
+    alpha = model.startprob_ * B[0]
+    out[0] = alpha / alpha.sum()
+    for t in range(1, len(X)):
+        alpha = (out[t - 1] @ model.transmat_) * B[t]
+        out[t] = alpha / alpha.sum()
+    return out
+
+filt = forward_filter(model, X)
+smooth_full = model.predict_proba(X)                     # forward-backward over ALL data
+
+# 1) last row of predict_proba on a window ending at t == filtered prob at t
+ts = np.arange(TRAIN, T, 97)
+err = max(np.abs(model.predict_proba(X[:t + 1])[-1] - filt[t]).max() for t in ts)
+print(f"[1] max |predict_proba(X[:t+1])[-1] - manual filter| over {len(ts)} t: {err:.2e}")
+
+# 2) look-ahead: smoothed (full-sample) vs filtered at the same t
+test = slice(TRAIN, T)
+dis = (filt[test].argmax(1) != smooth_full[test].argmax(1)).mean()
+mad = np.abs(filt[test] - smooth_full[test]).mean()
+print(f"[2] test region: argmax disagreement filtered vs smoothed = {dis:.3%}; mean |dP| = {mad:.4f}")
+
+# 3) Viterbi label instability: do past labels change when new data arrives?
+w1 = model.predict(X[:2500])
+w2 = model.predict(X[:3000])
+chg = (w1 != w2[:2500])
+print(f"[3] Viterbi: {chg.mean():.3%} of labels for t<2500 changed after appending 500 obs "
+      f"(max index changed: {np.where(chg)[0].max() if chg.any() else None})")
+
+# 4) leakage consequence: accuracy vs true regime, filtered vs smoothed, test region
+acc_f = (filt[test].argmax(1) == s[test]).mean()
+acc_s = (smooth_full[test].argmax(1) == s[test]).mean()
+print(f"[4] agreement with true regime: filtered={acc_f:.3f}  smoothed(look-ahead)={acc_s:.3f}")
+EOF
+python hmm_lookahead_test.py
+
+Output
+
+[1] max |predict_proba(X[:t+1])[-1] - manual filter| over 11 t: 1.73e-12
+[2] test region: argmax disagreement filtered vs smoothed = 1.800%; mean |dP| = 0.0259
+[3] Viterbi: 0.000% of labels for t<2500 changed after appending 500 obs (max index changed: None)
+[4] agreement with true regime: filtered=0.983  smoothed(look-ahead)=0.995
+
+
+Checking the numerical results against expected values.
+
+Reviewing whether the labels held up on easy synthetic data.
+
+Comparing look-ahead inflation on easy synthetic data.
+
+Writing up the regime research records and the Phase 0 audit note.
+
+Writing the regime research records and the Phase 0 audit note.
+
+Saving the verification script as a deliverable.
+
+Defining the features and refit schedule for the HMM.
+
+Defining acceptance tests and the walk-forward evaluation plan.
+
+bash
+
+mkdir -p /mnt/user-data/outputs/ML_Trading_Project/Research && cd /mnt/user-data/outputs/ML_Trading_Project/Research && cp /home/claude/hmm_lookahead_test.py ./Q01_hmm_filter_verification.py
+
+cat > Q01-A_Regime_Classification_Without_Lookahead.md << 'EOF'
+---
+id: Q01-A
+raw_question: 1
+category: 1 - Market Intelligence
+status: PARTIALLY COMPLETE (research + prototype verification done; repo audit and implementation tests pending)
+decision: IMPLEMENT NOW (causality tests) / EXPERIMENT IN ISOLATION (HMM component)
+updated: 2026-11-20
+---
+# Q01-A - Regime classification without future information
+
+## Original research question
+How should our ML bot identify and classify market regimes using historical information such as volatility, momentum, volume, price movement, and correlations, without accidentally using information from the future?
+
+## Research objective
+Establish (1) whether an HMM is a sound regime-classification component, (2) exactly where look-ahead enters an HMM pipeline, (3) how to update classifications bar by bar, (4) how to expose uncertainty to downstream logic.
+
+## Existing project context
+- Obsidian vault and code repository: NOT ACCESSIBLE in this session. Steps 2 and 6 of the workflow are therefore NOT DONE.
+- Known only from prior notes: AI_Trading_Lab works on public 5-minute spot data (ADA, BTC, DOGE, ETH, SOL, XRP vs USDT, Binance.US), public data only, no live trading. Whether it contains any regime code is unknown.
+
+## Technical concepts (plain language)
+- **Regime**: a persistent market "mode" (e.g., calm/trending vs. volatile) that changes return/volatility behavior.
+- **HMM**: assumes a hidden regime s_t that follows a Markov chain (transition matrix A) and emits observed features x_t from a regime-specific distribution (Gaussian: mean mu_k, covariance S_k). Parameters: lambda = {A, mu, sigma, pi}. Two assumptions: observations depend only on the current state; transitions depend only on the current state (Wang et al. 2020, Sec. 2.2).
+- **Filtering** P(s_t | x_1..x_t): uses only the past and present. Causal. The only legitimate quantity for live or backtested decisions.
+- **Smoothing** P(s_t | x_1..x_T): also uses observations after t. Fine for descriptive research, leaks future information if used for decisions.
+- **Viterbi**: most likely whole state path given all observations (also non-causal).
+
+## Research findings
+1. **The standard library call is non-causal at interior points.** hmmlearn documents `viterbi` as the most likely state sequence "given all emissions" and `map` (smoothing / forward-backward) as the individually most likely states "given all emissions". `predict_proba` returns posterior state probabilities (smoothed). Any value at time t from a window extending past t uses future bars.
+2. **The causal quantity is available from the same API, with one trick.** The last row of `predict_proba(X[:t+1])` equals the filtered probability at t (the backward message at the final step is 1). Verified numerically (below). hmmlearn does not expose a public forward-only filter, so use the manual recursion below (O(K^2) per bar) rather than recomputing the window each bar.
+3. **Parameters are a second leak channel.** Fitting the HMM on the full history and then reading regimes inside that history leaks through mu, S, A. Parameters must be fit only on data available at the refit time.
+4. **State identity is unstable across refits (label switching).** The reference paper retrains daily on a sliding window and fixes meaning with a rule (lowest-return regime = bear, highest = bull).
+5. **The reference paper is a design lead, not proof.** Wang, Lin, Mikhelson (JRFM 13(12):311, 2020): Gaussian HMM (hmmlearn), 3 states, features = daily return and a volatility proxy, trained on S&P 500 ETF data (Jan 2007 - Sep 2017), tested Sep 2017 - Apr 2020. Limitations I found in the text:
+   - Per-regime strategy performance was computed from regimes decoded over the training period (hindsight labels).
+   - Live regime detection used a *different* mechanism (KS-fitted distributions, PDF thresholds 0.3 and 0.5, not justified in the text) rather than HMM filtered probabilities.
+   - K=3 was chosen using in-sample log-likelihood (Fig. 3), which generally improves as K grows, so it cannot select K on its own.
+   - One out-of-sample window (~2.6 years), equities, daily bars; includes leveraged strategies; the text I read does not discuss transaction costs.
+   - Its "volatility" is a mean-squared deviation of closing prices around a 10-day moving average, which is price-scale dependent.
+   Transfer to 5-minute crypto is untested.
+
+## Verified sources
+| Source | Org/Author | Date | URL | Establishes | Limits |
+|---|---|---|---|---|---|
+| Regime-Switching Factor Investing with Hidden Markov Models | Wang, Lin, Mikhelson; JRFM 13(12), 311 | 5 Dec 2020 | https://www.mdpi.com/1911-8074/13/12/311 (DOI 10.3390/jrfm13120311) | HMM regime-switching design, Gaussian HMM, retraining scheme, results (full text read) | Single OOS window; equities/daily; see item 5 |
+| hmmlearn API reference (decode / predict_proba) | hmmlearn project | "latest" docs | https://hmmlearn.readthedocs.io/en/latest/api.html | viterbi and map decoders use all emissions; posteriors via forward-backward | Docs describe behavior; they do not warn about look-ahead |
+| Rabiner (1989), Baum-Welch/Viterbi/forward papers | cited by Wang et al. | - | - | NOT independently read; only cited secondhand | - |
+
+## How the technique works
+Filtered recursion (fixed parameters), with b_j(x) the emission density of state j:
+
+    alpha_t(j) = b_j(x_t) * sum_i alpha_{t-1}(i) * A[i, j]
+    P(s_t = j | x_1..x_t) = alpha_t(j) / sum_k alpha_t(k)
+
+Reference implementation and tests: `Q01_hmm_filter_verification.py` (same folder).
+
+### Prototype verification (synthetic data, hmmlearn 0.3.3, 1 seed, 1 run)
+Two well-separated synthetic regimes, T=3000, fit on first 2000 bars, test on the last 1000.
+| Check | Result |
+|---|---|
+| Last row of `predict_proba(X[:t+1])` vs manual filter at 11 test points | max abs diff 1.7e-12 (equivalent) |
+| Filtered vs full-sample smoothed argmax disagreement, test region | 1.8% of bars; mean abs probability difference 0.026 |
+| Agreement with true regime: filtered vs smoothed | 0.983 vs 0.995 (look-ahead flatters accuracy by ~1.2 points here) |
+| Viterbi labels for t<2500 after appending 500 bars | 0% changed (NOT a demonstration of instability; regimes were too easy) |
+Caveats: synthetic and easy; one EM non-convergence warning was emitted during fitting; the effect size on real, ambiguous 5-minute crypto data is unknown and is likely larger.
+
+## Application to this project (design proposal; to be validated)
+1. **Observation features** (candidates, not yet tested): log return; realized variance over a trailing window; volume relative to trailing median; for alts, trailing correlation to BTC. All must be computed from bars <= t only; normalization with trailing (rolling/expanding) statistics, never global z-scores.
+2. **Fit** on a trailing window ending at t_fit; **filter** with frozen parameters between refits; refit cadence and window length are open parameters to be set from a baseline experiment (see raw question 12), not guessed.
+3. **Align states after each refit** (e.g., order by fitted volatility mean; log the distance between old and new emission parameters; flag a refit as invalid if state meaning changes).
+4. **Choose K** by walk-forward held-out likelihood (and/or BIC), not in-sample likelihood.
+5. **Emit per bar**: filtered probability vector, argmax regime, max-probability and entropy as confidence. Handling of uncertainty and switching belongs to Q02.
+6. **Timing**: a regime computed at bar-close t may only influence orders at bar t+1 or later.
+
+## Existing implementation assessment
+Status: NOT ASSESSED (no repository access). Hermes must run the Phase 0 checks in `Phase0_Audit_Status.md`.
+
+## Recommended improvements (priority order)
+1. Add a causality test harness (cheap, independent of the HMM choice).
+2. Prototype the filtered-HMM regime component in isolation on the project's 5-minute data, compared against a trivial baseline (e.g., rolling-volatility quantile regimes).
+3. Only adopt it if it beats the baseline out-of-sample on the downstream task (Q01-B).
+
+## Dependencies
+Repo audit (Phase 0); point-in-time data handling (raw 17-18); window design (raw 11-12); Q02 for switching logic.
+
+## Acceptance criteria
+- AC1 Future-perturbation test: for random t, regime outputs for all bars <= t are identical (tolerance 1e-9) when bars after t are removed or replaced by noise.
+- AC2 Equivalence test: filtered output equals last row of `predict_proba` on the truncated window (tolerance 1e-9); prototype achieved 1.7e-12.
+- AC3 No global scaling: every scaler/normalizer fit uses only data <= the decision time (static check + test).
+- AC4 Baseline: record expected regime duration, switch frequency, and occupancy per asset; any alert thresholds are derived from that baseline, not set arbitrarily.
+- AC5 Refit alignment: state meaning preserved across refits; violations logged.
+
+## Risk assessment
+Gaussian emissions fit fat-tailed 5-minute returns poorly (hypothesis; test); intraday seasonality can masquerade as regimes; EM local optima (seed sensitivity; run multiple initializations); regimes may be partly explained by volatility alone, in which case a simpler method wins; computational cost is low.
+
+## Implementation decision
+IMPLEMENT NOW: AC1-AC3 test harness. EXPERIMENT IN ISOLATION: HMM component.
+
+## Implementation record
+No project files changed. Only the standalone verification script was run in a scratch sandbox.
+
+## Outstanding questions
+Actual project code state; real-data behavior; refit cadence; K; whether crypto 5-minute data show regimes distinguishable beyond volatility.
+EOF
+
+cat > Q01-B_Strategy_Performance_By_Regime_and_Validation.md << 'EOF'
+---
+id: Q01-B
+raw_question: 2
+category: 1 - Market Intelligence
+status: PARTIALLY COMPLETE (research done; repo audit and implementation tests pending)
+decision: EXPERIMENT IN ISOLATION
+updated: 2026-11-20
+---
+# Q01-B - Learning which strategy works in which regime, and proving it holds on unseen data
+
+## Original research question
+How should the bot learn which strategies perform best within each identified market regime, and how can it establish that those relationships remain effective on previously unseen historical data?
+
+## Research objective
+Define a procedure that builds a strategy-by-regime performance map and tests whether it generalizes, while controlling selection bias from testing many strategy-regime cells.
+
+## Existing project context
+Repo and vault not accessible this session (Steps 2, 6 not done). Depends on Q01-A (causal regimes), Q02 (switching), Q03 (selection policy), Q05/Q06 (overfitting, chronological validation), Q18 (costs).
+
+## Technical concepts
+- **Regime-conditional performance**: a strategy's return statistics computed only over bars where a given regime was active.
+- **Selection bias**: with S strategies and R regimes there are S x R cells; picking the best cell by in-sample score is optimistic by construction.
+- **PBO / CSCV**: Bailey, Borwein, Lopez de Prado, Zhu propose estimating the probability that the in-sample-best choice underperforms out of sample, using combinatorially symmetric cross-validation; they argue that standard hold-out is unreliable for investment backtests.
+
+## Research findings
+1. **The reference design** (Wang et al. 2020): backtest six factor models over a training period, decode regimes with the HMM, compute each model's per-regime Sharpe, choose the best model per regime, then run the rotation on a later period. This is the right skeleton; its weaknesses for our purposes: the per-regime table used hindsight regime labels and a single train/test split, and live detection used a different mechanism than the one used to build the table (so the table and the live signal were not guaranteed to describe the same regimes).
+2. **PBO/CSCV verified at abstract level**: framework and CSCV implementation exist and are model-free and nonparametric. I did not read the full paper this session; implementation details are to be verified in Q05.
+3. **Counting units**: 5-minute bars within a regime episode are strongly autocorrelated, so sample size should be counted in regime *episodes* and evaluated with block bootstrap, not in bars. (Engineering reasoning; not source-verified.)
+
+## Verified sources
+| Source | URL | Establishes | Limits |
+|---|---|---|---|
+| Wang, Lin, Mikhelson, JRFM 13(12):311, 2020 | https://www.mdpi.com/1911-8074/13/12/311 | Regime-conditional strategy rotation design and its single-window result | See above |
+| Bailey, Borwein, Lopez de Prado, Zhu, "The Probability of Backtest Overfitting", J. Computational Finance 20(4), 2017, DOI 10.21314/JCF.2016.322 | https://escholarship.org/uc/item/4w1110bb (preprint: https://ssrn.com/abstract=2326253) | PBO framework, CSCV, hold-out unreliable for backtests | Abstract/metadata read, not the full derivation |
+
+## How the technique works (proposed procedure)
+    for each walk-forward fold (train window -> purged/embargoed gap -> test window):
+        # TRAIN
+        regimes_train = filtered regime labels on train window (Q01-A)
+        perf[s, r]   = net-of-cost stats of strategy s over bars in regime r  (train only)
+        eligible[s,r]= episodes(s,r) and bootstrap-CI criteria satisfied (thresholds from baseline)
+        mapping[r]   = argmax_s shrunk(perf[s, r]) over eligible, else fallback strategy
+        # TEST (parameters frozen at train end)
+        regimes_test = causal filtered labels using train-fit HMM
+        returns_test = returns of mapping[regime_t] applied bar by bar, net of costs and switching costs
+    aggregate returns_test across folds; compare against baselines
+
+Baselines the regime-conditional rule must beat out of sample: (a) the single best strategy chosen in train, (b) equal-weight over strategies, (c) random mapping, (d) block-permuted regime labels (destroys regime information while preserving label statistics).
+Stability check: rank correlation of per-regime strategy rankings between consecutive folds.
+Overfitting control: treat each candidate mapping rule / hyperparameter setting as a trial and compute PBO via CSCV over the trial-by-time performance matrix (Q05).
+
+## Application to this project
+Gives the strategy-intelligence layer (architecture block G) a testable claim: "regime information adds net, out-of-sample value over the best single strategy". If it cannot show that, the map is not used.
+
+## Existing implementation assessment
+NOT ASSESSED (no repository access).
+
+## Recommended improvements (priority order)
+1. Build the fold harness and baselines (a)-(d) before any sophisticated mapping.
+2. Add stability and PBO reporting.
+3. Add shrinkage toward overall performance for sparse cells (design proposal; validate empirically).
+
+## Dependencies
+Q01-A causal regimes; Q05, Q06; Q18 cost model; at least a few candidate strategies producing comparable return series.
+
+## Acceptance criteria
+- The regime-conditional rule beats baselines (a) and (c)/(d) out of sample, net of costs, with a block-bootstrap confidence interval on the improvement that excludes zero.
+- Rank stability across folds and PBO are reported; promotion thresholds are set from the baseline distribution (random-mapping / permuted-label runs), not chosen arbitrarily.
+- No component of the test window influences train-window mapping (future-perturbation test).
+
+## Risk assessment
+Few regime episodes per cell; regimes drift; multiple comparisons; costs and switching can erase small edges; a single-strategy baseline may simply win (which is a valid result).
+
+## Implementation decision
+EXPERIMENT IN ISOLATION.
+
+## Implementation record
+None.
+
+## Outstanding questions
+Candidate strategy set; episode and CI criteria (to be set from baseline runs); fold geometry (raw question 12).
+EOF
+
+cat > Phase0_Audit_Status.md << 'EOF'
+---
+id: PHASE0
+status: BLOCKED (no repository or vault access in this session)
+updated: 2026-11-20
+---
+# Phase 0 - Existing project audit: status
+
+## What I could not do
+Search the Obsidian vault, inspect the code, run existing tests, record a baseline, or create a checkpoint. None of these were available. No claims are made about what the project already implements.
+
+## What is known (from prior notes only)
+AI_Trading_Lab: public 5-minute spot data for ADA, BTC, DOGE, ETH, SOL, XRP vs USDT (Binance.US preferred), 12-24 months, public data only, no credentials, no live trading, no fabricated data or silent gap filling.
+
+## Checklist Hermes must run before accepting any Q01 recommendation
+1. List repo tree; identify data ingestion, feature code, any regime/HMM code, backtest engine, strategy definitions, model storage.
+2. Run the existing test suite; save output as the baseline (`Testing and Validation/00_BASELINE`).
+3. Grep for global scalers/normalizers (`StandardScaler`, `.mean()`, `.std()` over full frames), `shift(-n)`, `predict_proba`, `.predict(` on full arrays, `fit` on full history.
+4. Create a git tag or backup before any change.
+5. Record findings in `Architecture/00_PROJECT_AUDIT` and update the tracker.
+EOF
+
+cat > 00_MASTER_TRACKER.md << 'EOF'
+---
+updated: 2026-11-20
+---
+# Master tracker (resume rule: continue at the first item that is not COMPLETE or BLOCKED)
+
+Mapping: Qnn-A / Qnn-B = raw questions (2n-1) / 2n.
+
+| ID | Area | Status | Implementation |
+|---|---|---|---|
+| Phase 0 | Project audit | BLOCKED (no repo/vault access) | Not assessed |
+| Q01 | HMM regimes | PARTIALLY COMPLETE (A and B researched) | Not assessed |
+| Q02 | Bayesian regimes / switching | NOT STARTED | Not assessed |
+| Q03 | Contextual bandits | NOT STARTED | Not assessed |
+| Q04 | Extra data sources | NOT STARTED | Not assessed |
+| Q05-Q22 | see plan Section 15 | NOT STARTED | Not assessed |
+
+## 44-question checklist
+- [~] Q01-A research done; repo comparison pending  -> Q01-A_Regime_Classification_Without_Lookahead
+- [~] Q01-B research done; repo comparison pending  -> Q01-B_Strategy_Performance_By_Regime_and_Validation
+- [ ] Q02-A (raw 3)   - [ ] Q02-B (raw 4)
+- [ ] Q03-A (raw 5)   - [ ] Q03-B (raw 6)
+- [ ] Q04-A (raw 7)   - [ ] Q04-B (raw 8)
+- [ ] Q05-A..Q22-B (raw 9-44), in order
+EOF
+ls -la
+
+Output
+
+total 32
+drwxr-xr-x 1 claude ubuntu    0 Nov 21 04:00 .
+drwxr-xr-x 1 claude ubuntu    0 Nov 21 04:00 ..
+-rw-r--r-- 1 claude ubuntu 1033 Nov 21 04:00 00_MASTER_TRACKER.md
+-rw-r--r-- 1 claude ubuntu 1235 Nov 21 04:00 Phase0_Audit_Status.md
+-rw-r--r-- 1 claude ubuntu 9597 Nov 21 04:00 Q01-A_Regime_Classification_Without_Lookahead.md
+-rw-r--r-- 1 claude ubuntu 6084 Nov 21 04:00 Q01-B_Strategy_Performance_By_Regime_and_Validation.md
+-rw-r--r-- 1 claude ubuntu 2649 Nov 21 04:00 Q01_hmm_filter_verification.py
+
+Presented 5 files
+44-question ML trading bot research plan (Master Execution Plan, Hermes agent + Obsidian vault); Q01 regime/HMM work in progress
+
+I've done Phase 0 as far as I could and completed the Q01 research (raw questions 1 and 2). I can't access your Obsidian vault or code, so the comparison against what's already built is still outstanding. I haven't done Q02–Q44, and I haven't marked Q01 fully complete: your plan requires comparing the findings to the existing build, and I had nothing to compare to. The plan treats each question as a separate investigation, so doing all 44 here would have meant shallow answers.
+
+Q01-A (regimes without look-ahead)
+
+Library behavior: hmmlearn's predict and predict_proba use all the data, including bars after the one you're classifying. Any regime read from the middle of a window leaks the future.
+Causal fix: the last row of predict_proba on a window ending at t equals the filtered (past-only) probability at t. I checked this numerically on synthetic data (difference 1.7e-12), and the script includes a manual bar-by-bar filter.
+Size of the leak: on that easy synthetic data, using future information raised agreement with the true regime from 0.983 to 0.995. It disagreed with the causal version on 1.8% of bars, so the effect on real 5-minute crypto may be larger. My attempt to show that appending data changes past Viterbi labels found no change on the easy data, so I haven't shown that effect.
+Second leak: fitting the model on the whole history also leaks, through its parameters. Refit only on past data, keep the states consistently labeled across refits, and normalize features using only trailing statistics.
+
+Q01-B (best strategy per regime, and proving it holds up)
+
+Procedure: run a walk-forward test where the strategy-by-regime map is built only on the training window and applied to later data. Measure it net of costs against four baselines: the best single strategy, equal-weight, a random map, and block-permuted regime labels.
+Controls: count regime episodes rather than 5-minute bars, and report map stability across folds. Control overfitting with the probability-of-backtest-overfitting method (Bailey et al., verified at abstract level).
+
+The reference paper is not proof. Wang, Lin and Mikhelson (2020) is a useful design, but I found real weaknesses:
+
+Its per-regime performance table was built from regimes labeled with hindsight.
+Its live detection used a different, unjustified mechanism.
+Its number of states was chosen on in-sample likelihood.
+It tested on a single 2.6-year window, on equities.
+Transfer to 5-minute crypto is untested.
+
+What I couldn't do
+
+Project audit: the vault, code, tests and checkpoint are all inaccessible, so I made no claims about what exists. The audit checklist for Hermes is in Phase0_Audit_Status.md.
+Folder names: the file layout is mine, not your vault's conventions.
+Verification scope: I didn't read the full probability-of-backtest-overfitting paper, only its abstract and metadata.
+Test data: the verification used synthetic data, one seed, one run.
+Warning: the fit printed one convergence warning.
+
+Next step: have Hermes run the Phase 0 checklist and tell me what it finds, or say "continue" and I'll do Q02 as written.
+
+Files are in ML_Trading_Project/Research/:
+
+Q01-A_Regime_Classification_Without_Lookahead.md
+Q01-B_Strategy_Performance_By_Regime_and_Validation.md
+00_MASTER_TRACKER.md
+Phase0_Audit_Status.md
+Q01_hmm_filter_verification.py
+Q01 A Regime Classification Without Lookahead
+Document
+·MD
+Q01 B Strategy Performance By Regime and Validation
+Document
+·MD
+00 MASTER TRACKER
+Document
+·MD
+Phase0 Audit Status
+Document
+·MD
+Q01 hmm filter verification
+Code
+·PY
